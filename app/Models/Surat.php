@@ -10,7 +10,7 @@ class Surat extends Model
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    protected $table = 'tbl_surat'; // Nama tabel
+    protected $table = 'tbL_surat'; // Nama tabel
 
     protected $fillable = [
         'nomor_rekening',
