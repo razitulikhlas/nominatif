@@ -26,6 +26,7 @@ Route::get('/pdf/{norek}',[PdfGenerateController::class,'show'])->name('pdf.show
 Route::resource('surats', SuratController::class);
 Route::resource('dashboard', DashboardController::class);
 Route::resource('nominatif', NominatifController::class);
+Route::delete('/nominatif/{id}', [NominatifController::class, 'destroy'])->name('nominatif.destroy');
 Route::post('/nominatif/upload', [NominatifController::class, 'upload'])->name('nominatif.upload');
 Route::resource('afiliasi', AfiliasiController::class);
 Route::post('/afiliasi/upload', [AfiliasiController::class, 'upload'])->name('afiliasi.upload');

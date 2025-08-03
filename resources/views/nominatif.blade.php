@@ -52,6 +52,7 @@
                         <th>Lancar</th>
                         <th>DPK</th>
                         <th>NPL</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -62,6 +63,10 @@
                             <td>{{ number_format((float)($item->Lancar ?? 0), 0, ',', '.') }}</td>
                             <td>{{ number_format((float)($item->DPK ?? 0), 0, ',', '.') }}</td>
                             <td>{{ number_format((float)($item->NPL ?? 0), 0, ',', '.')}}</td>
+                            <td> <button type="button" class="btn btn-danger rounded-pill"
+                                data-bs-toggle="modal" data-nominatif="{{$item->TANGGAL}}"
+                                data-bs-target="#exampleModalCenter" id="delete">Delete</button>
+                            </td>
                         </tr>
                         @empty
                         <tr>
@@ -81,10 +86,57 @@
 </div>
 
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+style="display: none;" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Peringatan!!
+            </h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Apakah anda yakin ingin menghapus data ini?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Close</span>
+            </button>
+            <form action="/nominatif" method="post" class="d-inline" id="formDelete">
+                @method('delete')
+                @csrf
+                <button class="btn btn-primary ml-1">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Accept</span>
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(function() {
+        $(document).on('click', '#delete', function() {
+            console.log("HELLO" + $(this).data('nominatif'));
+            $('#formDelete').attr('action', '/nominatif/' + $(this).data('nominatif'));
+        })
+    });
+</script>
+
 
 @endsection
 
 @section('scripts')
 <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
 <script src="{{ asset('assets/js/file-upload.js') }}"></script>
+
+
+
 @endsection

@@ -182,9 +182,14 @@ class NominatifController extends Controller
 
 
 
-    public function destroy($account)
+    public function destroy($id)
     {
-
+        DB::select("DELETE FROM tbl_nominatif WHERE TANGGAL = '$id'");
+        return redirect()->back()->with('success', 'Data berhasil dihapus!');
+        // return $id;
+        // $databeasiswa = DataBeasiswa::whereId($id)->first();
+        // DataBeasiswa::destroy($id);
+        // return redirect('databeasiswa/' . $databeasiswa->id_beasiswa)->with('success', 'Data beasiswa berhasil di hapus');
     }
 
 

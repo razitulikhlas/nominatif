@@ -69,6 +69,7 @@ class DashboardController extends Controller
         $np = number_format((float)($posisi->NPL ?? 0), 0, ',', '.');
         $dp = number_format((float)($posisi->DPK ?? 0), 0, ',', '.');
 
+        // return $lc;
 
 
 
@@ -280,9 +281,13 @@ class DashboardController extends Controller
         $dataDPK = [];
 
 
-        $lc = number_format((float)($posisi->Lancar ?? 0), 0, ',', '.');
-        $np = number_format((float)($posisi->NPL ?? 0), 0, ',', '.');
-        $dp = number_format((float)($posisi->DPK ?? 0), 0, ',', '.');
+        // $lc = number_format((float)($posisi->Lancar ?? 0), 0, ',', '.');
+        // $np = number_format((float)($posisi->NPL ?? 0), 0, ',', '.');
+        // $dp = number_format((float)($posisi->DPK ?? 0), 0, ',', '.');
+
+        $lc = $posisi->Lancar;
+        $np = $posisi->NPL ;
+        $dp = $posisi->DPK ;
 
 
 
