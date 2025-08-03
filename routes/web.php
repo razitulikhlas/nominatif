@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 
 Route::get('/', function () {
-    return view('dasboard');
+    return view('dashboard');
 });
 
 Route::get('/account',[AccountController::class,'index']);
