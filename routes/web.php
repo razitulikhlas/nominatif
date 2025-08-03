@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 
 Route::get('/', function () {
-    return view('dashboard');
+    // Mungkin ada logika lain di sini sebelum redirect
+    return redirect('/dashboard');
 });
 
 Route::get('/account',[AccountController::class,'index']);
