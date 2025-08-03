@@ -201,7 +201,7 @@
         <form class="forms-sample" action="{{ route('dasboard.filter') }}" method="POST">
         @csrf
             <div class="bg-white p-6 rounded-xl mb-6 ">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">Filter Data</h2>
+                <h2 class="text-xl font-bold mb-4 text-gray-700">Filter Data2</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                         <!-- Tanggal Awal -->
