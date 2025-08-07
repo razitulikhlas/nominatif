@@ -49,6 +49,7 @@
                                         <th>Nomor Surat</th>
                                         <th>Tanggal Surat</th>
                                         <th>Jenis Surat</th>
+                                        <th>Alamat</th>
                                         <th>Tunggakan Pokok</th>
                                         <th>Tunggakan Bunga</th>
                                         <th>Denda Pokok</th>
@@ -177,7 +178,7 @@
                                         </tr>
                                         <tr>
                                             <th>Tanggal Jatuh Tempo</th>
-                                            <td>: {{ $nasabah->TGL_JT }}</td>
+                                            <td>: </td>
                                         </tr>
                                         <tr>
                                             <th>Kolektibilitas</th>
@@ -293,6 +294,13 @@
                                 @endif
                             </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="alamat" name="alamat"
+                                placeholder="Alamat" required>
+                        </div>
+
 
                         <div class="mb-3">
                             <label for="tunggakan_pokok" class="form-label">Tunggakan Pokok</label>

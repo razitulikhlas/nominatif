@@ -7,13 +7,22 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
 
+        @font-face {
+    font-family: 'Swiss 721 Lt BT'; /* Define a name for the font */
+    src: url('path/to/Swiss721LtBT.woff2') format('woff2'), /* Path to your font files */
+         url('path/to/Swiss721LtBT.woff') format('woff');
+    font-weight: normal; /* Adjust as per the font's characteristics */
+    font-style: normal;
+}
+
         body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
+            font-family: 'Swiss 721 Lt BT',;
+            font-size: 11pt;
             line-height: 1;
             color: #000;
             background-color: #fff;
-            margin: 0;
+            margin-left: 50px;
+            margin-right: 50px;
             padding-top: 2cm;
             /* padding: 2.5cm; */
         }
@@ -155,7 +164,7 @@
         .signature-name {
             font-weight: bold;
             text-decoration: underline;
-            margin-top: 70px; /* Space for signature */
+            margin-top: 80px; /* Space for signature */
         }
 
         .footer {
@@ -221,16 +230,14 @@
 
 
         <div class="recipient">
-            <p>Kepada Yth,</p>
+            <p>Kepada</p>
             <p><strong>Sdr. {{$data->NAMA_SINGKAT}}</strong><br>
-            Jorong Gunung Nag Tanjung Alam<br>
-            Kec. Tanjuang Baru, Kab. Tanah Datar</p>
+            {{$surat->alamat}}<br></p>
         </div>
 
         <div class="main-content">
-            <p>Sehubungan dengan kredit yang sdr/i peroleh dari PT. Bank Nagari Cabang Pembantu Tabek Patah Sesuai dengan Perjanjian Kredit (PK) yang telah Saudara tandatangani dengan Kami No {{$data->NO_PK}} tanggal {{ $tgl_pk}}
-                nominal Rp.{{ number_format((float)($data->PLAFOND ?? 0), 0, ',', '.') }},- ({{$terbilang}} rupiah) dengan ini kami sampaikan sebagai berikut:</p>
-
+            <p>Sehubungan dengan kredit yang sdr/i peroleh dari PT. Bank Nagari Cabang Pembantu Tabek Patah Sesuai dengan Perjanjian Kredit (PK) yang telah Saudara tandatangani dengan Kami No {{$data->NO_PK}} tanggal {{ $surat->tanggal_pk}}
+                nominal Rp.{{ number_format((float)($data->PLAFOND ?? 0), 0, ',', '.') }},- ({{$terbilang}} rupiah ) dengan ini kami sampaikan sebagai berikut:</p>
             <ol>
                 <li>Pembayaran kewajiban Saudara tidak berjalan lancar sebagaimana mestinya.</li>
                 <li>Tunggakan Saudara sampai dengan tanggal {{ \Carbon\Carbon::parse($surat->tanggal_surat)->isoFormat('D MMMM YYYY') }} tercatat sebagai berikut:</li>
@@ -277,8 +284,10 @@
 
             <div class="signature-block">
                 Hormat kami,<br>
-                <p class="signature-name">YUDHISTIRA HADINOSYA</p>
-                Pemimpin Capem
+                <p class="signature-name">ROLLY FERNANDO SYAMSIR</p>
+
+                <p style="margin-top: -10px">Pemimpin Capem</p>
+
             </div>
         </div>
 

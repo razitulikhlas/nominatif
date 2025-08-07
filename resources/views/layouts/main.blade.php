@@ -72,7 +72,7 @@
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">David Greymaax</p>
+                  <p class="mb-1 text-black">{{Auth::user()->name}}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -177,7 +177,7 @@
               </div>
             </li>
             <li class="nav-item nav-logout d-none d-lg-block">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/logout">
                 <i class="mdi mdi-power"></i>
               </a>
             </li>
@@ -205,7 +205,7 @@
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2">David Grey. H</span>
+                  <span class="font-weight-bold mb-2">{{Auth::user()->name}}</span>
                   <span class="text-secondary text-small">Project Manager</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
@@ -263,6 +263,19 @@
                 </ul>
               </div>
             </li>
+            <li class="nav-item">
+                <a href="/user" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="forms">
+                  <span class="menu-title">Data User</span>
+                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                </a>
+                <div class="collapse" id="forms">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
             <li class="nav-item">
               <a class="nav-link {{ Request::is('nominatif') ? 'active' : ''}}" href="/nominatif"  aria-controls="charts">
                 <span class="menu-title">Nominatif</span>

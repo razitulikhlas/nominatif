@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nomor_surat');
             $table->date('tanggal_surat');
             $table->integer('jenis_surat');
+            $table->string('alamat');
             $table->float('tunggakan_pokok');
             $table->float('tunggakan_bunga');
             $table->float('denda_pokok');

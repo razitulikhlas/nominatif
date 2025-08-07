@@ -17,6 +17,8 @@ class Surat extends Model
         'nomor_surat',
         'tanggal_surat',
         'jenis_surat',
+        'alamat',
+        'tanggal_pk',
         'tunggakan_pokok',
         'tunggakan_bunga',
         'denda_pokok',

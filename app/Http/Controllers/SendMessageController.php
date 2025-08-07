@@ -43,7 +43,10 @@ class SendMessageController extends Controller
         }
 
         // return $cek;
-        $nasabah = Nominatif::where('NO_REK', $norek)->first();
+        // $nasabah = Nominatif::where('NO_REK', $norek)->first();
+        $nasabah = DB::select("SELECT * FROM tbl_nominatif WHERE NO_REK = ? AND TANGGAL = (SELECT MAX(TANGGAL) FROM tbl_nominatif)", [$norek]);
+
+        // return $nasabah[0];
 
 
         // return dd($nasabah->DENDA_TUNGGPKK);
@@ -57,7 +60,7 @@ class SendMessageController extends Controller
         // sebelum meneruskannya ke view.
 
         return view('whatsaapDetail', [
-                'nasabah' => $nasabah,
+                'nasabah' => $nasabah[0],
                 'surat' => $surat,
                 'cek' => $cek,
             ]

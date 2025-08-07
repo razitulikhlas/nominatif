@@ -22,13 +22,16 @@ class PdfGenerateController extends Controller
 
     public function show($id){
 
+        // $pdf = Pdf::loadView("surat_berita_acara_klaim")->setPaper('A4', 'portrait');
+        // return $pdf->stream();
+
         $surat = Surat::whereId($id)->first();
 
 
         $total_denda = $surat->denda_pokok + $surat->denda_bunga;
         $total = $surat->tunggakan_pokok + $surat->tunggakan_bunga + $total_denda;
-        $total = number_format($total, 2, ',', '.');
-        $total_denda = number_format($total_denda, 2, ',', '.');
+        $total = number_format($total, 0, ',', '.');
+        $total_denda = number_format($total_denda, 0, ',', '.');
 
         // return $total_denda;
 
@@ -132,7 +135,7 @@ class PdfGenerateController extends Controller
         $angka = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
 
         if ($x < 12)
-          return "" . $angka[$x];
+          return " " . $angka[$x];
         elseif ($x < 20)
           return $this->terbilang($x - 10) . " belas ";
         elseif ($x < 100)

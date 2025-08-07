@@ -198,8 +198,8 @@
 
         {{-- Data Filter --}}
         <div class="row flex-grow p-3 overflow-auto" style="margin-top: -20px;">
-        <form class="forms-sample" action="{{ route('dasboard.filter') }}" method="POST">
-        @csrf
+        {{-- <form class="forms-sample" action="{{ route('dasboard.filter') }}" method="POST"> --}}
+        {{-- @csrf --}}
             <div class="bg-white p-6 rounded-xl mb-6 ">
                 <h2 class="text-xl font-bold mb-4 text-gray-700">Filter Data</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -257,14 +257,17 @@
                         </div>
                         <!-- Tombol Filter -->
                         <div class="md:col-span-3 flex justify-end pt-2">
-                            <button id="filter-button" type="submit" class="w-full md:w-auto bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
+                            {{-- <button id="filter-button" type="submit" class="w-full md:w-auto bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
                                 Filter
+                            </button> --}}
+                            <button id="filter" class="send-all-btn" >
+                                <i class="fab fa-whatsapp"></i> Filter
                             </button>
                         </div>
 
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
         </div>
 
 
@@ -566,7 +569,7 @@
             //     });
             // });
 
-            $('#sendMessage').on('click', function() {
+            $('#sendWA').on('click', function() {
                 // Logika sisi klien (opsional)
                 console.log('Tombol diklik, mengirim request dengan jQuery...');
                 const loadingOverlay = document.getElementById('loading-overlay');
@@ -575,7 +578,7 @@
                 loadingOverlay.classList.add('show');
 
                 $.ajax({
-                    url: '{{ route("dasboard.sendwa") }}', // URL dari named route
+                    url: '{{ route("testa") }}', // URL dari named route
                     type: 'GET', // Metode request
                     data: {
                         // Data yang akan dikirim ke controller
@@ -585,9 +588,40 @@
                     success: function(response) {
                         // 4. Jika request berhasil (success)
                         console.log('Respons dari server:', response);
-                        const message = `<div class="alert alert-success">${response.message}</div>`;
+                        // const message = `<div class="alert alert-success">${response.message}</div>`;
+                        // $('#hasil').html(message);
+                        // loadingOverlay.classList.remove('show');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // 5. Jika terjadi error
+                        console.error('Gagal melakukan request:', textStatus, errorThrown);
+                        const message = `<div class="alert alert-danger">Terjadi kesalahan.</div>`;
                         $('#hasil').html(message);
                         loadingOverlay.classList.remove('show');
+                    }
+                });
+
+            });
+
+
+            $('#filter').on('click', function() {
+                // Logika sisi klien (opsional)
+
+
+                $.ajax({
+                    url: '{{ route("testa") }}', // URL dari named route
+                    type: 'GET', // Metode request
+                    data: {
+                        // Data yang akan dikirim ke controller
+                        info: 'Ini data dari client via jQuery',
+                        user_id: 5
+                    },
+                    success: function(response) {
+                        // 4. Jika request berhasil (success)
+                        console.log('Respons dari server:', response);
+                        // const message = `<div class="alert alert-success">${response.message}</div>`;
+                        // $('#hasil').html(message);
+                        // loadingOverlay.classList.remove('show');
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         // 5. Jika terjadi error

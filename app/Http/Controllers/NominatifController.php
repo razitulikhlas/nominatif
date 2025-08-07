@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -24,8 +25,8 @@ class NominatifController extends Controller
         SUM(CASE WHEN KOLEKTIBILITY = 1 THEN NILAI_WAJAR ELSE 0 END) AS Lancar,
         SUM(CASE WHEN KOLEKTIBILITY = 2 THEN NILAI_WAJAR ELSE 0 END) AS DPK,
         SUM(CASE WHEN KOLEKTIBILITY >= 3 THEN NILAI_WAJAR ELSE 0 END) AS NPL,
-        SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif GROUP BY TANGGAL
-        ORDER BY TANGGAL DESC");
+        SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif WHERE KD_CAB = ? GROUP BY TANGGAL
+        ORDER BY TANGGAL DESC", [Auth::user()->cabang]);
 
         // $data = array_reverse($data);
 
@@ -67,6 +68,7 @@ class NominatifController extends Controller
             $csv = Reader::createFromStream($stream);
             $csv->setDelimiter(';');
             $csv->setHeaderOffset(0);
+
 
             // return dd($csv->getRecords()); // Mengembalikan iterator untuk membacaz
 

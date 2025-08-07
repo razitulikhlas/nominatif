@@ -9,11 +9,12 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
+            font-size: 11pt;
             line-height: 1;
             color: #000;
             background-color: #fff;
-            margin: 0;
+            margin-left: 50px;
+            margin-right: 50px;
             padding-top: 2cm;
             /* padding: 2.5cm; */
         }
@@ -219,12 +220,9 @@
         </table>
 
 
-        <div class="recipient">
-            <p>Kepada Yth,</p>
-            <p><strong>Sdr. {{$data->NAMA_SINGKAT}}</strong><br>
-            Jorong Gunung Nag Tanjung Alam<br>
-            Kec. Tanjuang Baru, Kab. Tanah Datar</p>
-        </div>
+        <p>Kepada</p>
+        <p><strong>Sdr. {{$data->NAMA_SINGKAT}}</strong><br>
+        {{$surat->alamat}}<br></p>
 
         <div class="main-content">
             <p>Menunjuk surat kami No.SR/{{ $surat_sebelumnya->nomor_surat}}/TPBS/UM/{{ substr($surat_sebelumnya->tanggal_surat, 5, 2)}}-{{ substr($surat_sebelumnya->tanggal_surat, 0, 4)}} tanggal {{ \Carbon\Carbon::parse($surat_sebelumnya->tanggal_surat)->isoFormat('D MMMM YYYY')}} perihal {{$surat1}}, dengan ini kami sampaikan sebagai berikut:</p>
@@ -240,22 +238,24 @@
                         <td>&bull; Tunggakan Pokok</td>
                         <td>:</td>
                         <td>Rp</td>
-                        <td>3,259,881.00</td> </tr>
+                        <td>{{ number_format((float)($surat->tunggakan_pokok ?? 0), 0, ',', '.') }}</td> </tr>
                     <tr>
                         <td>&bull; Tunggakan Bunga</td>
                         <td>:</td>
                         <td>Rp</td>
-                        <td>6,000,000.00</td> </tr>
+                        <td>{{ number_format((float)($surat->tunggakan_bunga?? 0), 0, ',', '.') }}</td> </tr>
                     <tr>
                         <td>&bull; Denda</td>
                         <td>:</td>
                         <td>Rp</td>
-                        <td>0.00</td> </tr>
+                        <td>{{ $total_denda }}</td>
+                    </tr>
                     <tr class="total">
                         <td>Jumlah</td>
                         <td>:</td>
                         <td>Rp</td>
-                        <td>9,259,881.00</td> </tr>
+                        <td>{{ $total }}</td>
+                     </tr>
                 </table>
             </div>
 
@@ -274,10 +274,13 @@
         <div class="signature-section">
 
             <div class="signature-block">
-                Hormat kami,
+                Hormat kami,<br>
                 <p class="signature-name">YUDHISTIRA HADINOSYA</p>
-                Pemimpin Capem
+
+                <p style="margin-top: -10px">Pemimpin Capem</p>
+
             </div>
+        </div>
         </div>
 
     </div>

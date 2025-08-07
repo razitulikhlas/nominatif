@@ -9,11 +9,12 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
+            font-size: 11pt;
             line-height: 1;
             color: #000;
             background-color: #fff;
-            margin: 0;
+            margin-left: 50px;
+            margin-right: 50px;
             padding-top: 2cm;
             /* padding: 2.5cm; */
         }
@@ -219,12 +220,9 @@
         </table>
 
 
-        <div class="recipient">
-            <p>Kepada Yth,</p>
-            <p><strong>Sdr. {{$data->NAMA_SINGKAT}}</strong><br>
-            Jorong Gunung Nag Tanjung Alam<br>
-            Kec. Tanjuang Baru, Kab. Tanah Datar</p>
-        </div>
+        <p>Kepada</p>
+        <p><strong>Sdr. {{$data->NAMA_SINGKAT}}</strong><br>
+        {{$surat->alamat}}<br></p>
 
         <div class="main-content">
             <p>Menunjuk surat kami No.SR/{{ $surat_sebelumnya->nomor_surat}}/TPBS/UM/{{ substr($surat_sebelumnya->tanggal_surat, 5, 2)}}-{{ substr($surat_sebelumnya->tanggal_surat, 0, 4)}} tanggal {{ \Carbon\Carbon::parse($surat_sebelumnya->tanggal_surat)->isoFormat('D MMMM YYYY')}} perihal {{$surat1}}, dengan ini kami sampaikan sebagai berikut:</p>
@@ -267,12 +265,8 @@
             <ol start="3">
                 <li>Untuk menghindari hal-hal lain yang akan memberatkan Saudara nantinya terhadap penyelesaian kredit Saudara melalui saluran hukum yang berlaku maka dengan ini kami minta Saudara untuk melunasi tunggakan tersebut dengan segera.</li>
              </ol>
+            <p>Sehubungan hal tersebut dengan ini kami minta Saudara untuk melunasi tunggakan tersebut dengan segera. Demikian surat ini disampaikan, atas perhatian Saudara kami ucapkan terima kasih.</p>
 
-            <p>Demikian disampaikan, atas perhatian Saudara kami ucapkan terima kasih.</p> </div>
-
-            <p>Sehubungan hal tersebut dengan ini kami minta Saudara untuk melunasi tunggakan tersebut dengan segera.</p>
-
-            <p>Demikian disampaikan, atas perhatian Saudara kami ucapkan terima kasih.</p>
         </div>
 
 
@@ -281,7 +275,9 @@
             <div class="signature-block">
                 Hormat kami,<br>
                 <p class="signature-name">YUDHISTIRA HADINOSYA</p>
-                Pemimpin Capem
+
+                <p style="margin-top: -10px">Pemimpin Capem</p>
+
             </div>
         </div>
 

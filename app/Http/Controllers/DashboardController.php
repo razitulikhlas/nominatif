@@ -9,9 +9,11 @@ use App\Models\Nominatif;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use Throwable;
@@ -30,17 +32,21 @@ class DashboardController extends Controller
 
     public function index()
     {
+        // return $user = Auth::user();
+        // return Session::invalidate();
         $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' order by nama_analis asc");
         $cabang = Cabang::all();
         // return $analisKredit;
         // return $this->sendWa();
-
+        // return Auth::user()->kd_cab;
         $data = DB::select("SELECT TANGGAL,
         SUM(CASE WHEN KOLEKTIBILITY = 1 THEN NILAI_WAJAR ELSE 0 END) AS Lancar,
         SUM(CASE WHEN KOLEKTIBILITY = 2 THEN NILAI_WAJAR ELSE 0 END) AS DPK,
         SUM(CASE WHEN KOLEKTIBILITY >= 3 THEN NILAI_WAJAR ELSE 0 END) AS NPL,
-        SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif GROUP BY TANGGAL
-        ORDER BY TANGGAL ");
+        SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif where KD_CAB = ? GROUP BY TANGGAL
+        ORDER BY TANGGAL ",
+            [Auth::user()->cabang]
+        );
 
         // return $data;
 
@@ -116,6 +122,7 @@ class DashboardController extends Controller
             ->setLabels($setL)
             ->setColors(['#00E396', '#feb019', '#ff455f']);
 
+        // return dd($donut->container());
         // return dd();
 
         // return dd($chart);
@@ -165,6 +172,11 @@ class DashboardController extends Controller
 
         // return $data; // Kembalikan data untuk debugging atau penggunaan lebih lanjut
 
+    }
+
+
+    public function test(){
+        return "ini dari php";
     }
 
 
