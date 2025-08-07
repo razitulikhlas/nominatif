@@ -28,7 +28,7 @@ class LoginController extends Controller
 
         if($response){
             Session::regenerate();
-            return redirect("dashboard");
+            return redirect("nominatif");
         }else{
             return redirect()->back()->with('error', 'Username atau Password salah');
         }
