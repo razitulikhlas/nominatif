@@ -3,6 +3,8 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AfiliasiController;
 use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\CabangController;
+use App\Http\Controllers\CapemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NominatifController;
@@ -38,14 +40,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('dashboard', DashboardController::class);
 
     Route::resource('nominatif', NominatifController::class);
+    Route::resource('cabang', CabangController::class);
+    Route::resource('capem', CapemController::class);
+
+
     Route::delete('/nominatif/{id}', [NominatifController::class, 'destroy'])->name('nominatif.destroy');
     Route::post('/nominatif/upload', [NominatifController::class, 'upload'])->name('nominatif.upload');
     Route::resource('afiliasi', AfiliasiController::class);
     Route::post('/afiliasi/upload', [AfiliasiController::class, 'upload'])->name('afiliasi.upload');
-    Route::get('/sendwa', [DashboardController::class, 'sendWa'])->name('dasboard.sendwa');
-    Route::get('/testa', [DashboardController::class, 'test'])->name('testa');
+    Route::get('/sendwa', [DashboardController::class, 'sendTunggakan'])->name('dasboard.sendwa');
+    Route::get('/testa', [DashboardController::class, 'filter'])->name('testa');
 
-    Route::post('/filter', [DashboardController::class, 'filter'])->name('dasboard.filter');
+    // Route::post('/filter', [DashboardController::class, 'filter'])->name('dasboard.filter');
 
     // Route::resource('/login', LoginController::class);
 

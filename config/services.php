@@ -39,7 +39,7 @@ return [
         'secret'  =>  env('SERVICE_SECRET'),
     ],
     'whatsapp_sender' => [
-        'url' => env('WHATSAPP_SENDER_API_URL', 'https://api.wagat1383center.my.id/send-message'),
+        'url' => env('WHATSAPP_SENDER_API_URL', 'https://app.wapanels.com/api/create-message'),
         'api_key' => env('WHATSAPP_SENDER_API_KEY'),
     ],
 

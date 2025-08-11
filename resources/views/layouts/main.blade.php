@@ -238,10 +238,11 @@
               </div>
             </li> --}}
             <li class="nav-item">
-                <a href="/account" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="icons">
+             <a href="/account" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="icons">
                 <span class="menu-title">Akun</span>
                 <i class="mdi mdi-contacts menu-icon"></i>
               </a>
+
               <div class="collapse" id="icons">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
@@ -266,6 +267,45 @@
             <li class="nav-item">
                 <a href="/user" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="forms">
                   <span class="menu-title">Data User</span>
+                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                </a>
+                <div class="collapse" id="forms">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a href="/cabang" class="nav-link {{ Request::is('cabang') ? 'active' : ''}}" aria-controls="forms">
+                  <span class="menu-title">Cabang</span>
+                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                </a>
+                <div class="collapse" id="forms">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a href="/capem" class="nav-link {{ Request::is('capem') ? 'active' : ''}}" aria-controls="forms">
+                  <span class="menu-title">Capem</span>
+                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                </a>
+                <div class="collapse" id="forms">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a href="/afiliasi" class="nav-link {{ Request::is('afiliasi') ? 'active' : ''}}" aria-controls="forms">
+                  <span class="menu-title">Afiliasi</span>
                   <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                 </a>
                 <div class="collapse" id="forms">

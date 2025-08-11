@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('cabang');
+            $table->integer('id_cabang');
             $table->integer('rules');
             $table->timestamps();
         });

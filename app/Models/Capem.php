@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cabang extends Model
+class Capem extends Model
 {
-    protected $table = 'tbL_cabang'; // Nama tabel
+    protected $table = 'tbL_capem'; // Nama tabel
 
     protected $fillable = [
-        'id',
-        'kode_cabang',
-        'nama_cabang',
+        'id_cabang',
+        'kode_capem',
+        'nama_capem',
     ];
 
     public $timestamps = false; // Jika tabel tidak memiliki kolom created_at dan updated_at

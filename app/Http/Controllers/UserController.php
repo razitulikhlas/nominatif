@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Cabang;
 use App\Models\User;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
@@ -15,18 +16,23 @@ class UserController extends Controller
 
     public function index(){
         $data = User::all();
+        $cabang = Cabang::all();
         // return User::all();
-        return view('user',["data" => $data]);
+        return view('user',[
+            "data" => $data,
+            "cabang" => $cabang
+        ]);
     }
 
 
 
     public function store(Request $request)
     {
+        // return $request->all();
         $request->validate([
             'username' => 'required|string|max:255|unique:users',
             'name' => 'required|string|max:255',
-            'cabang' => 'required|string|max:255',
+            'id_cabang' => 'required|exists:cabangs,id',
             'rules' => 'required|integer',
         ]);
 
