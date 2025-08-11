@@ -32,7 +32,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|string|max:255|unique:users',
             'name' => 'required|string|max:255',
-            'id_cabang' => 'required|exists:cabangs,id',
+            'id_cabang' => 'required',
             'rules' => 'required|integer',
         ]);
 
