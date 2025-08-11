@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('afiliasi', AfiliasiController::class);
     Route::resource('analis', AnalisController::class);
     Route::post('/analis/upload', [AnalisController::class, 'upload'])->name('analis.upload');
+    Route::get('/analisfilter/{id}', [AnalisController::class, 'getAnalis']);
+
     Route::post('/afiliasi/upload', [AfiliasiController::class, 'upload'])->name('afiliasi.upload');
     Route::get('/sendwa', [DashboardController::class, 'sendTunggakan'])->name('dasboard.sendwa');
     Route::get('/testa', [DashboardController::class, 'filter'])->name('testa');
