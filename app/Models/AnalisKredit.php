@@ -9,6 +9,7 @@ class AnalisKredit extends Model
     protected $table = 'tbl_analis'; // Nama tabel
 
     protected $fillable = [
+        'id_cabang',
         'kode_analis',
         'nama_analis',
     ];
