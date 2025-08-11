@@ -91,12 +91,35 @@ class DashboardController extends Controller
 
 
 
-            $maxTanggal = DB::table('tbl_nominatif')->max('TANGGAL');
+            $maxTanggal = DB::select('select max(tanggal) as tanggal from tbl_nominatif where kd_cab_konsol = ?', [$cabang]);
+
+            $maxTanggal = $maxTanggal[0]->tanggal ?? null; // Ambil tanggal terakhir dari hasil query
 
             // Jika tidak ada tanggal, hentikan proses untuk menghindari error.
             if (!$maxTanggal) {
                 return []; // atau response lain yang sesuai
             }
+
+
+            // $dataTunggakan = DB::select("SELECT tbl_nominatif.KD_AO,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
+            // from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK
+            // WHERE tbl_nominatif.KOLEKTIBILITY > 1
+            // AND tbl_nominatif.TUNGG_POKOK != 0
+            // AND tbl_nominatif.TUNGG_BUNGA != 0
+            // AND tbl_nominatif.NOHP != ''
+            // AND tbl_nominatif.NOHP != '0'
+            // AND tbl_nominatif.NOHP != '00'
+            // AND tbl_nominatif.NOHP != '080'
+            // AND tbl_nominatif.NOHP != '0812'
+            // AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
+            // AND tbl_afiliasi.NO_REK_AFILIASI != ''
+            // AND tbl_nominatif.KD_CAB_KONSOL = ?
+            // AND tbl_nominatif.TANGGAL = '$maxTanggal' ", [$cabang]);
+
+            // $dataAnalis = DB::select("SELECT * FROM tbl_analis ");
+
+            // return $dataTunggakan;
+            // return $dataAnalis;
 
         $dataTunggakan = DB::select("SELECT tbl_nominatif.KD_AO,tbL_analis.nama_analis,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
             from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK INNER JOIN tbL_analis on tbl_nominatif.KD_AO = tbL_analis.kode_analis
@@ -398,7 +421,7 @@ class DashboardController extends Controller
         $ANALIS = 3;
 
         // return $user = Auth::user();
-        $user = Auth::user();
+         $user = Auth::user();
 
         // return $user;
 
@@ -542,6 +565,15 @@ class DashboardController extends Controller
             $npl = number_format((float)($npl ?? 0), 0, ',', '.');
             $dpk = number_format((float)($dpk ?? 0), 0, ',', '.');
 
+            $user = Auth::user();
+            $cabang = Cabang::whereId(Auth::user()->id_cabang)->first();
+            // return;
+
+
+            $maxTanggal = DB::select('select max(tanggal) as tanggal from tbl_nominatif where kd_cab_konsol = ?', [$cabang->kode_cabang]);
+
+            $maxTanggal = $maxTanggal[0]->tanggal ?? null;
+
             $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,tbL_analis.nama_analis,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
             from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK INNER JOIN tbL_analis on tbl_nominatif.KD_AO = tbL_analis.kode_analis
             WHERE tbl_nominatif.KOLEKTIBILITY > 1
@@ -554,7 +586,7 @@ class DashboardController extends Controller
             AND tbl_nominatif.NOHP != '0812'
             AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
             AND tbl_afiliasi.NO_REK_AFILIASI != ''
-            AND tbl_nominatif.TANGGAL = (SELECT MAX(TANGGAL) FROM tbl_nominatif)";
+            AND tbl_nominatif.TANGGAL =  '$maxTanggal'";
 
             if (!empty($conditions)) {
                 $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
@@ -566,6 +598,8 @@ class DashboardController extends Controller
             // return $sqlTunggakan;
 
             $dataBlast = DB::select($sqlTunggakan);
+
+            // return $dataBlast;
 
 
 

@@ -85,6 +85,11 @@
             box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
         }
 
+        .increase {
+            color: var(--color-increase);
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+
         .filter-all-btn {
             background: linear-gradient(45deg, var(--danger-color), #2839ed);
             color: white;
@@ -145,6 +150,16 @@
 
         #customer-table tbody tr:hover {
             background-color: #e9ecef;
+        }
+
+        .card-percentage {
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
         /* CSS untuk Loading Screen */
@@ -342,7 +357,7 @@
                     <i class="fa-solid fa-money-bill-wave text-2xl"></i>
                 </div>
                 <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">Nilai DPK</p>
+                    <p class="text-slate-500 text-sm font-medium uppercase">DPK</p>
                     <p class="text-slate-800 text-3xl font-bold" id="infoNilaiDPK">Rp {{ $infoDPK }}</p>
                 </div>
             </div>
@@ -355,7 +370,7 @@
                     <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
                 </div>
                 <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">Nilai NPL</p>
+                    <p class="text-slate-500 text-sm font-medium uppercase">NPL</p>
                     <p class="text-slate-800 text-3xl font-bold" id="infoNilaiNPL">Rp {{ $infoNPL }}</p>
                 </div>
             </div>
