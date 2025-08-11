@@ -56,11 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/sendwa', [DashboardController::class, 'sendTunggakan'])->name('dasboard.sendwa');
     Route::get('/testa', [DashboardController::class, 'filter'])->name('testa');
 
-    // Route::post('/filter', [DashboardController::class, 'filter'])->name('dasboard.filter');
-
-    // Route::resource('/login', LoginController::class);
-
-
     Route::resource('/user', UserController::class);
 });
 
