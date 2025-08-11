@@ -616,7 +616,7 @@ class NominatifController extends Controller
 
             $tanggal = $request['tanggal_nominatif'];
 
-            $chekkTanggal = DB::select("SELECT TANGGAL FROM tbl_nominatif where TANGGAL = ? limit 1", [$tanggal]);
+            // $chekkTanggal = DB::select("SELECT TANGGAL FROM tbl_nominatif where TANGGAL = ? limit 1", [$tanggal]);
 
             // if ($chekkTanggal) {
             //     DB::select("DELETE FROM tbl_nominatif WHERE TANGGAL = ?", [$tanggal]);
