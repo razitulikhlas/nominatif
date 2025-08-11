@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tbL_analis', function (Blueprint $table) {
             $table->id()->primary();
             $table->integer('id_cabang');
-            $table->string('kode_analis')->unique();
+            $table->string('kode_analis');
             $table->string('nama_analis');
             $table->timestamps();
         });

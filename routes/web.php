@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AfiliasiController;
+use App\Http\Controllers\AnalisController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\CapemController;
@@ -47,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/nominatif/{id}', [NominatifController::class, 'destroy'])->name('nominatif.destroy');
     Route::post('/nominatif/upload', [NominatifController::class, 'upload'])->name('nominatif.upload');
     Route::resource('afiliasi', AfiliasiController::class);
+    Route::resource('analis', AnalisController::class);
+    Route::post('/analis/upload', [AnalisController::class, 'upload'])->name('analis.upload');
     Route::post('/afiliasi/upload', [AfiliasiController::class, 'upload'])->name('afiliasi.upload');
     Route::get('/sendwa', [DashboardController::class, 'sendTunggakan'])->name('dasboard.sendwa');
     Route::get('/testa', [DashboardController::class, 'filter'])->name('testa');
