@@ -22,7 +22,7 @@ class ServicesApi
 
     public function __construct()
     {
-        $this->baseUri =env('BASE_URL') ;
+        $this->baseUri =env('WHATSAPP_SENDER_API_URL') ;
         $this->secret = config('services.auth.secret');
     }
 
