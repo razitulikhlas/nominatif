@@ -618,9 +618,9 @@ class NominatifController extends Controller
 
             $chekkTanggal = DB::select("SELECT TANGGAL FROM tbl_nominatif where TANGGAL = ? limit 1", [$tanggal]);
 
-            if ($chekkTanggal) {
-                DB::select("DELETE FROM tbl_nominatif WHERE TANGGAL = ?", [$tanggal]);
-            }
+            // if ($chekkTanggal) {
+            //     DB::select("DELETE FROM tbl_nominatif WHERE TANGGAL = ?", [$tanggal]);
+            // }
 
             // $tanggal = Carbon::parse($request['tanggal_nominatif'])->isoFormat('D MMMM YYYY');
 
