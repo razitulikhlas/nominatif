@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnalisKredit extends Model
 {
-    protected $table = 'tbl_analis'; // Nama tabel
+    protected $table = 'tbL_analis'; // Nama tabel
 
     protected $fillable = [
         'id_cabang',
