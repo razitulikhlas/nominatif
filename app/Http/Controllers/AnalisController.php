@@ -43,6 +43,19 @@ class AnalisController extends Controller
     }
 
 
+    public function getAnalis($id){
+
+        // return [Auth::user()->id_cabang];
+        if($id != 0){
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND kode_analis like'%$id%' order by nama_analis asc");
+        }else{
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND id_cabang = ? order by nama_analis asc", [Auth::user()->id_cabang]);
+        }
+
+        return $analisKredit;
+
+    }
+
     public function upload(Request $request)
     {
         try {

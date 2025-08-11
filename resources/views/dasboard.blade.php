@@ -14,8 +14,8 @@
         }
 
         /* body {
-                font-family: 'Inter', sans-serif;
-            } */
+                    font-family: 'Inter', sans-serif;
+                } */
         .card-icon-gradient {
             background-image: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
         }
@@ -241,9 +241,9 @@
         }
 
         /* @keyframes spin {
-                                                        0% { transform: rotate(0deg); }
-                                                        100% { transform: rotate(360deg); }
-                                                    } */
+                                                            0% { transform: rotate(0deg); }
+                                                            100% { transform: rotate(360deg); }
+                                                        } */
 
         @media (max-width: 600px) {
             .container {
@@ -284,7 +284,7 @@
                             <label for="cabang" class="text-sm font-medium mb-1 text-gray-600">Cabang</label>
                             <select id="cabang" name="cabang"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">Semua</option>
+                                <option value="0">Semua</option>
                                 @if ($cabang)
                                     @foreach ($cabang as $item)
                                         <option value="{{ $item->kode_capem }}">{{ $item->nama_capem }}</option>
@@ -600,6 +600,56 @@
 
     <script>
         $(function() {
+
+            $('#cabang').on('change', function() {
+                // 2. Ambil ID cabang yang dipilih
+                var cabangId = $(this).val();
+
+                // console.log('Cabang ID:', cabangId);
+                var analisDropdown = $('#kode_analis');
+                // const loadingOverlay = document.getElementById('loading-overlay');
+
+                // // 1. Tampilkan loading screen dengan efek transisi
+                // loadingOverlay.classList.add('show');
+
+                // Kosongkan dropdown analis terlebih dahulu
+                analisDropdown.empty();
+                analisDropdown.append('<option value="0">Semua</option>'); // Tambahkan lagi opsi "Semua"
+
+                // Jika tidak ada cabang yang dipilih (atau memilih "Semua"), jangan lakukan apa-apa
+
+                    // 3. Lakukan panggilan AJAX ke server
+                    $.ajax({
+                        // URL ke rute yang kita buat di Laravel
+                        url: '/analisfilter/' + cabangId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            // loadingOverlay.classList.remove('show');
+                            // 4. Jika panggilan berhasil, proses data yang diterima
+                            if (data) {
+                                // Loop setiap item analis dari response JSON
+                                // console.log(data);
+                                $.each(data, function(key, analis) {
+                                    // Tambahkan sebagai <option> baru ke dropdown analis
+                                    analisDropdown.append('<option value="' + analis
+                                        .kode_analis + '">' + analis.nama_analis +
+                                        '</option>');
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // loadingOverlay.classList.remove('show');
+                            // Handle jika terjadi error
+                            console.error("AJAX Error: " + status + " - " + error);
+                        }
+                    });
+
+            });
+
+
+
+
             const tableBody = $('#tblBodyNPL');
 
             var tableTunggakan = $('#nasabahTable').DataTable({
@@ -895,7 +945,7 @@
                             }
                         });
                         // 4. Jika request berhasil (success)
-                        console.log('Respons dari server:', response);
+                        // console.log('Respons dari server:', response);
                         loadingOverlay.classList.remove('show');
                         // const message = `<div class="alert alert-success">${response.message}</div>`;
                         // $('#hasil').html(message);
@@ -904,7 +954,7 @@
                     error: function(jqXHR, textStatus, errorThrown) {
                         // 5. Jika terjadi error
                         loadingOverlay.classList.remove('show');
-                        console.error('Gagal melakukan request:', textStatus, errorThrown);
+                        // console.error('Gagal melakukan request:', textStatus, errorThrown);
                         const message =
                             `<div class="alert alert-danger">Terjadi kesalahan.</div>`;
                         $('#hasil').html(message);
@@ -916,7 +966,7 @@
 
             $('#sendMessage').on('click', function() {
                 // Logika sisi klien (opsional)
-                console.log('Tombol diklik, mengirim request dengan jQuery...');
+                // console.log('Tombol diklik, mengirim request dengan jQuery...');
                 const loadingOverlay = document.getElementById('loading-overlay');
 
                 // 1. Tampilkan loading screen dengan efek transisi
@@ -938,14 +988,14 @@
                     success: function(response) {
                         loadingOverlay.classList.remove('show');
                         // 4. Jika request berhasil (success)
-                        console.log('Respons dari server:', response);
+                        // console.log('Respons dari server:', response);
                         // const message = `<div class="alert alert-success">${response.message}</div>`;
                         // $('#hasil').html(message);
                         // loadingOverlay.classList.remove('show');
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         // 5. Jika terjadi error
-                        console.error('Gagal melakukan request:', textStatus, errorThrown);
+                        // console.error('Gagal melakukan request:', textStatus, errorThrown);
                         const message =
                             `<div class="alert alert-danger">Terjadi kesalahan.</div>`;
                         $('#hasil').html(message);
@@ -973,9 +1023,6 @@
         const cnp = document.getElementById('chartNPL');
         const dnl = document.getElementById('grafikDPK_NPL_LANCAR');
 
-
-
-        console.log();
 
         chartNL = new Chart(cnl, {
             type: 'line',

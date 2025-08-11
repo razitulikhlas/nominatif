@@ -56,6 +56,7 @@ class DashboardController extends Controller
             $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND id_cabang = ? order by nama_analis asc", [Auth::user()->id_cabang]);
 
 
+            // return $analisKredit;
             //  Logic untuk grafik
             $grafikTanggal = [];
             $grafikNPL = [];
@@ -100,29 +101,8 @@ class DashboardController extends Controller
                 return []; // atau response lain yang sesuai
             }
 
-
-            // $dataTunggakan = DB::select("SELECT tbl_nominatif.KD_AO,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
-            // from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK
-            // WHERE tbl_nominatif.KOLEKTIBILITY > 1
-            // AND tbl_nominatif.TUNGG_POKOK != 0
-            // AND tbl_nominatif.TUNGG_BUNGA != 0
-            // AND tbl_nominatif.NOHP != ''
-            // AND tbl_nominatif.NOHP != '0'
-            // AND tbl_nominatif.NOHP != '00'
-            // AND tbl_nominatif.NOHP != '080'
-            // AND tbl_nominatif.NOHP != '0812'
-            // AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
-            // AND tbl_afiliasi.NO_REK_AFILIASI != ''
-            // AND tbl_nominatif.KD_CAB_KONSOL = ?
-            // AND tbl_nominatif.TANGGAL = '$maxTanggal' ", [$cabang]);
-
-            // $dataAnalis = DB::select("SELECT * FROM tbl_analis ");
-
-            // return $dataTunggakan;
-            // return $dataAnalis;
-
-        $dataTunggakan = DB::select("SELECT tbl_nominatif.KD_AO,tbL_analis.nama_analis,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
-            from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK INNER JOIN tbL_analis on tbl_nominatif.KD_AO = tbL_analis.kode_analis
+            $dataTunggakan = DB::select("SELECT tbl_nominatif.KD_AO,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
+            from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK
             WHERE tbl_nominatif.KOLEKTIBILITY > 1
             AND tbl_nominatif.TUNGG_POKOK != 0
             AND tbl_nominatif.TUNGG_BUNGA != 0
@@ -137,11 +117,44 @@ class DashboardController extends Controller
             AND tbl_nominatif.TANGGAL = '$maxTanggal' ", [$cabang]);
 
 
-        // return dd($dataTunggakan);
+            // Buat peta pencarian kosong
+            $peta_analis = [];
 
-            foreach ($dataTunggakan as $key => $item) {
-                $dataTunggakan[$key]->NOHP = substr_replace($dataTunggakan[$key]->NOHP, '62', 0, 1);
+            // Loop melalui data analis HANYA SATU KALI untuk membuat peta
+            foreach ($analisKredit as $analis) {
+                // Jadikan 'kode_analis' sebagai kunci dan seluruh objek analis sebagai nilainya
+                $peta_analis[$analis->kode_analis] = $analis;
             }
+
+            $hasil_join = [];
+
+            // Loop melalui data nominatif
+            foreach ($dataTunggakan as $nominatif) {
+                $kode_ao = $nominatif->KD_AO;
+
+                // Cek apakah kode AO dari nominatif ada sebagai kunci di peta analis kita
+                if (isset($peta_analis[$kode_ao])) {
+                    // Jika cocok, kita temukan analisnya!
+                    $analis_cocok = $peta_analis[$kode_ao];
+
+                    // Gabungkan data yang diinginkan. Contoh: tambahkan nama analis ke data nominatif
+                    $nominatif->nama_analis = $analis_cocok->nama_analis;
+
+                    // Anda juga bisa menambahkan data lain jika perlu
+                    // $nominatif['id_cabang_analis'] = $analis_cocok['id_cabang'];
+
+                    // Masukkan objek nominatif yang sudah diperbarui ke dalam hasil akhir
+                    $hasil_join[] = $nominatif;
+                }
+            }
+
+            // return $hasil_join;
+
+            // return dd($dataTunggakan);
+
+            // foreach ($dataTunggakan as $key => $item) {
+            //     $dataTunggakan[$key]->NOHP = substr_replace($dataTunggakan[$key]->NOHP, '62', 0, 1);
+            // }
 
             $cabang = Capem::where('id_cabang', Auth::user()->id_cabang)->get();
 
@@ -165,7 +178,7 @@ class DashboardController extends Controller
                     'posisi' => $posisi,
                     'dataNBNPL' => $dataNBNPL,
                     'dataNBDPK' => $dataNBDPK,
-                    'dataBlast' => $dataTunggakan,
+                    'dataBlast' => $hasil_join,
                     'donutD' => $setData,
                     'donutL' => $setKeterangan,
                 ]
@@ -421,7 +434,7 @@ class DashboardController extends Controller
         $ANALIS = 3;
 
         // return $user = Auth::user();
-         $user = Auth::user();
+        $user = Auth::user();
 
         // return $user;
 
@@ -457,6 +470,8 @@ class DashboardController extends Controller
         $kodeAnalis = $request->input('kode_analis') ?? '';
         $rincianKredit = $request->input('rincian_kredit') ?? '';
 
+        // return $cabangI;
+
         // --- LANGKAH 2: Siapkan query dinamis ---
         $sql = "SELECT TANGGAL,
         SUM(CASE WHEN KOLEKTIBILITY = 1 THEN NILAI_WAJAR ELSE 0 END) AS Lancar,
@@ -478,14 +493,22 @@ class DashboardController extends Controller
             $params[] = $tanggalAkhir;
         }
 
+        $analisKredit = null;
         // Filter untuk cabang
         if (!empty($cabangI)) {
             $conditions[] = "kd_cab = $cabangI"; // Ganti nama kolom jika perlu
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND kode_analis like'%$cabangI%' order by nama_analis asc");
             $params[] = $cabangI;
         } else {
             $userCabang = Cabang::whereId(Auth::user()->id_cabang)->first();
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND id_cabang = ? order by nama_analis asc", [Auth::user()->id_cabang]);
             $conditions[] = "kd_cab_konsol = $userCabang->kode_cabang";
         }
+
+        // return $analisKredit;
+
+
+
 
         // Filter untuk kode analis
         if (!empty($kodeAnalis)) {
@@ -574,23 +597,23 @@ class DashboardController extends Controller
 
             $maxTanggal = $maxTanggal[0]->tanggal ?? null;
 
-            $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,tbL_analis.nama_analis,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
-            from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK INNER JOIN tbL_analis on tbl_nominatif.KD_AO = tbL_analis.kode_analis
-            WHERE tbl_nominatif.KOLEKTIBILITY > 1
-           AND tbl_nominatif.TUNGG_POKOK != 0
-            AND tbl_nominatif.TUNGG_BUNGA != 0
-            AND tbl_nominatif.NOHP != ''
-            AND tbl_nominatif.NOHP != '0'
-            AND tbl_nominatif.NOHP != '00'
-            AND tbl_nominatif.NOHP != '080'
-            AND tbl_nominatif.NOHP != '0812'
-            AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
-            AND tbl_afiliasi.NO_REK_AFILIASI != ''
-            AND tbl_nominatif.TANGGAL =  '$maxTanggal'";
+            $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
+                from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK
+                WHERE tbl_nominatif.KOLEKTIBILITY > 1
+               AND tbl_nominatif.TUNGG_POKOK != 0
+                AND tbl_nominatif.TUNGG_BUNGA != 0
+                AND tbl_nominatif.NOHP != ''
+                AND tbl_nominatif.NOHP != '0'
+                AND tbl_nominatif.NOHP != '00'
+                AND tbl_nominatif.NOHP != '080'
+                AND tbl_nominatif.NOHP != '0812'
+                AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
+                AND tbl_afiliasi.NO_REK_AFILIASI != ''
+                AND tbl_nominatif.TANGGAL =  '$maxTanggal'";
 
-            if (!empty($conditions)) {
-                $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
-            }
+                if (!empty($conditions)) {
+                    $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
+                }
 
 
             $sqlTunggakan .= " GROUP BY NAMA_SINGKAT";
@@ -600,6 +623,37 @@ class DashboardController extends Controller
             $dataBlast = DB::select($sqlTunggakan);
 
             // return $dataBlast;
+
+             // Buat peta pencarian kosong
+             $peta_analis = [];
+
+             // Loop melalui data analis HANYA SATU KALI untuk membuat peta
+             foreach ($analisKredit as $analis) {
+                 // Jadikan 'kode_analis' sebagai kunci dan seluruh objek analis sebagai nilainya
+                 $peta_analis[$analis->kode_analis] = $analis;
+             }
+
+             $hasil_join = [];
+
+             // Loop melalui data nominatif
+             foreach ($dataBlast as $nominatif) {
+                 $kode_ao = $nominatif->KD_AO;
+
+                 // Cek apakah kode AO dari nominatif ada sebagai kunci di peta analis kita
+                 if (isset($peta_analis[$kode_ao])) {
+                     // Jika cocok, kita temukan analisnya!
+                     $analis_cocok = $peta_analis[$kode_ao];
+
+                     // Gabungkan data yang diinginkan. Contoh: tambahkan nama analis ke data nominatif
+                     $nominatif->nama_analis = $analis_cocok->nama_analis;
+
+                     // Anda juga bisa menambahkan data lain jika perlu
+                     // $nominatif['id_cabang_analis'] = $analis_cocok['id_cabang'];
+
+                     // Masukkan objek nominatif yang sudah diperbarui ke dalam hasil akhir
+                     $hasil_join[] = $nominatif;
+                 }
+             }
 
 
 
@@ -619,7 +673,7 @@ class DashboardController extends Controller
                 'dataNBDPK' => $dataNBDPK,
                 'donutD' => $setData,
                 'donutL' => $setKeterangan,
-                'dataBlast' => $dataBlast,
+                'dataBlast' => $hasil_join,
             ];
         }
 
@@ -706,77 +760,77 @@ class DashboardController extends Controller
             AND tbl_afiliasi.NO_REK_AFILIASI != ''
             AND tbl_nominatif.TANGGAL = (SELECT MAX(TANGGAL) FROM tbl_nominatif)";
 
-            if (!empty($conditions)) {
-                $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
-            }
+        if (!empty($conditions)) {
+            $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
+        }
 
 
-            $sqlTunggakan .= " GROUP BY NAMA_SINGKAT";
+        $sqlTunggakan .= " GROUP BY NAMA_SINGKAT";
 
-            // $message = [];
+        // $message = [];
 
-            // return $sqlTunggakan;
+        // return $sqlTunggakan;
 
-          $dataBlast = DB::select($sqlTunggakan);
+        $dataBlast = DB::select($sqlTunggakan);
 
-            foreach ($dataBlast as $item) {
+        foreach ($dataBlast as $item) {
 
-                        // Konversi ke float
-                        // $tunggPokokNumeric = (float)$cleanedPokok;
-                        // $tunggBungaNumeric = (float)$cleanedBunga;
+            // Konversi ke float
+            // $tunggPokokNumeric = (float)$cleanedPokok;
+            // $tunggBungaNumeric = (float)$cleanedBunga;
 
-                        // $tunggakanNumeric = $tunggPokokNumeric + $tunggBungaNumeric;
-                        $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
+            // $tunggakanNumeric = $tunggPokokNumeric + $tunggBungaNumeric;
+            $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
 
-                        $nama = $item->NAMA_SINGKAT;
-                        $norek = $item->NO_REK_AFILIASI;
-                        $hp= substr_replace($item->no_petugas, '62', 0, 1);
+            $nama = $item->NAMA_SINGKAT;
+            $norek = $item->NO_REK_AFILIASI;
+            $hp = substr_replace($item->no_petugas, '62', 0, 1);
 
-                        $message = $this->templateMessage(
-                            $item->KOLEKTIBILITY,
-                            $item->JML_HARI_TUNGPKK,
-                            $nama,
-                            $hp,
-                            $tunggakan,
-                            $item->nama_analis,
-                            $norek
-                        );
+            $message = $this->templateMessage(
+                $item->KOLEKTIBILITY,
+                $item->JML_HARI_TUNGPKK,
+                $nama,
+                $hp,
+                $tunggakan,
+                $item->nama_analis,
+                $norek
+            );
 
-                        $payload = [
-                            "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
-                            "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
-                            "to"  => "6282169146904", // atau mengambil dari database/request
-                            "message" => $message,
-                        ];
+            $payload = [
+                "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
+                "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
+                "to"  => "6282169146904", // atau mengambil dari database/request
+                "message" => $message,
+            ];
 
-                        SendWhatsAppTunggakan::dispatch($payload);
+            SendWhatsAppTunggakan::dispatch($payload);
 
-                        // try {
-                        //     $response = Http::timeout(130)->post("https://app.wapanels.com/api/create-message", $payload);
+            // try {
+            //     $response = Http::timeout(130)->post("https://app.wapanels.com/api/create-message", $payload);
 
-                        //     if (!$response->successful()) {
-                        //         // Log::channel('scheduler')->error('Failed to send queued WhatsApp message.', [
-                        //         //     'status' => $response->status(),
-                        //         //     'body'   => $response->body(),
-                        //         //     'payload_sent' => $payload
-                        //         // ]);
-                        //     }else{
-                        //         // return "Gagal mengirim pesan WhatsApp: " . $response->body();
-                        //     }
-                        // } catch (Throwable $e) {
-                        //     Log::channel('scheduler')->critical('Exception during queued WhatsApp message sending.', [
-                        //         'error_message' => $e->getMessage(),
-                        //         'payload_sent' => $payload,
-                        //     ]);
-                        //     return $e->getMessage();
-                        // }
+            //     if (!$response->successful()) {
+            //         // Log::channel('scheduler')->error('Failed to send queued WhatsApp message.', [
+            //         //     'status' => $response->status(),
+            //         //     'body'   => $response->body(),
+            //         //     'payload_sent' => $payload
+            //         // ]);
+            //     }else{
+            //         // return "Gagal mengirim pesan WhatsApp: " . $response->body();
+            //     }
+            // } catch (Throwable $e) {
+            //     Log::channel('scheduler')->critical('Exception during queued WhatsApp message sending.', [
+            //         'error_message' => $e->getMessage(),
+            //         'payload_sent' => $payload,
+            //     ]);
+            //     return $e->getMessage();
+            // }
 
-                        // SendWhatsAppTunggakan::dispatch($payload);
-                    }
+            // SendWhatsAppTunggakan::dispatch($payload);
+        }
 
-                    return back()->with('success', 'Proses pengiriman ' . count($dataBlast) . ' pesan telah dimulai.');
+        return back()->with('success', 'Proses pengiriman ' . count($dataBlast) . ' pesan telah dimulai.');
 
-                    // return $message;
+        // return $message;
 
     }
 
@@ -1121,19 +1175,18 @@ class DashboardController extends Controller
         return number_format($num, 0, ',', '.');
     }
 
-    public function templateMessage($kolek,$haritunggakan,$nama,$phone,$total_tunggakan,$petugas,$norek)
+    public function templateMessage($kolek, $haritunggakan, $nama, $phone, $total_tunggakan, $petugas, $norek)
     {
         $message = "Kepada Bapak/Ibu $nama
 Nasabah kami yang terhormat, Semoga Bapak/Ibu $nama senantiasa sehat dan diberikan kelancaran dalam setiap aktivitas usahanya saat ini. Dengan segala hormat dan pengertian, kami ingin menyampaikan sebuah catatan mengenai pinjaman Bapak/Ibu $nama. Berdasarkan data kami, saat ini terdapat keterlambatan pembayaran dengan jumlah tunggakan sebesar Rp $total_tunggakan Kami memahami bahwa fokus Bapak/ Ibu $nama tentu sedang tercurah pada pengembangan usaha. Oleh karena itu, agar hal ini tidak sampai mengganggu konsentrasi, kami sangat mengharapkan kewajiban tersebut dapat segera ditunaikan pada kesempatan pertama.
 
 Langkah ini penting untuk menjaga agar kondisi pinjaman Bapak/Ibu $nama tetap baik dan lancar, demi kenyamanan bersama. Atas perhatian dan kerja sama Bapak/ibu $nama kami mengucapkan terima kasih banyak.";
         return $message;
-
-
     }
 
 
-    public function temp($kolek,$haritunggakan,$nama,$phone,$total_tunggakan,$petugas,$norek){
+    public function temp($kolek, $haritunggakan, $nama, $phone, $total_tunggakan, $petugas, $norek)
+    {
         if ($kolek == 2) {
             if ($haritunggakan <= 30) {
                 $message = "Kepada Bapak/Ibu $nama
@@ -1147,7 +1200,7 @@ Jika sudah membayar abaikan pesan ini. Jika membutuhkan konfirmasi atau ingin be
 
 Hormat kami,
 *Bank Nagari*";
-return $message;
+                return $message;
             }
 
             if ($haritunggakan > 30 && $haritunggakan <= 60) {
@@ -1162,7 +1215,7 @@ Jika sudah membayar abaikan pesan ini. Jika membutuhkan konfirmasi atau ingin be
 
 Hormat kami,
 *Bank Nagari*";
-return $message;
+                return $message;
             }
             if ($haritunggakan > 60 && $haritunggakan <= 90) {
                 $message = "Yth. Bapak/Ibu *$nama*,
@@ -1176,11 +1229,11 @@ Jika sudah membayar abaikan pesan ini. Jika membutuhkan konfirmasi atau ingin be
 
 Hormat kami,
 *Bank Nagari*";
-return $message;
+                return $message;
             }
         }
 
-        if($kolek == 3 || $kolek == 4){
+        if ($kolek == 3 || $kolek == 4) {
             $message = "*Penting: Mari Mencari Solusi Terbaik untuk Kredit Anda*
 
 Yth. Bapak/Ibu *$nama* yang kami hormati, Semoga senantiasa dalam keadaan sehat dan lancar menjalankan segala aktivitas.
@@ -1193,7 +1246,7 @@ Untuk informasi lebih lanjut atau jika Bapak/Ibu *$nama* ingin segera berdiskusi
 
 Hormat kami,
 *Bank Nagari*";
-return $message;
+            return $message;
         }
 
 
@@ -1211,9 +1264,8 @@ Demikian kami sampaikan untuk menjadi perhatian serius.
 Hormat kami,
 *Bank Nagari*
 ";
-return $message;
+            return $message;
         }
-
     }
 
 
