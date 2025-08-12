@@ -569,7 +569,7 @@ class DashboardController extends Controller
 
         $sql .= " GROUP BY TANGGAL ORDER BY TANGGAL";
 
-        return $sql;
+        // return $sql;
 
         $data = DB::select($sql);
 
