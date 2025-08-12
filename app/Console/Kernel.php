@@ -28,17 +28,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Contoh: Menjalankan command setiap menit
-        $schedule->command('whatsapp:send-scheduled-message')
-                 ->everyTenSeconds()
-                 // ->dailyAt('08:00') // Contoh: Setiap hari jam 8 pagi
-                 // ->cron('* * * * *') // Anda juga bisa menggunakan ekspresi cron kustom
-                 ->withoutOverlapping() // Mencegah command berjalan jika instance sebelumnya masih berjalan
-                 ->onSuccess(function () {
-                    \Illuminate\Support\Facades\Log::channel('scheduler')->info('Task whatsapp:send-scheduled-message ran successfully.');
-                 })
-                 ->onFailure(function () {
-                    \Illuminate\Support\Facades\Log::channel('scheduler')->error('Task whatsapp:send-scheduled-message failed to run.');
-                 });
+        $schedule->command('queue:work --stop-when-empty')
+        ->everyMinute()
+        ->withoutOverlapping();
 
         // Anda bisa menambahkan jadwal lain di sini
     }

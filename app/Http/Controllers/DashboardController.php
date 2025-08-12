@@ -841,6 +841,8 @@ class DashboardController extends Controller
                  $peta_analis[$analis->kode_analis] = $analis;
              }
 
+            //  return $peta_analis;
+
              $hasil_join = [];
 
              // Loop melalui data nominatif
@@ -854,6 +856,7 @@ class DashboardController extends Controller
 
                      // Gabungkan data yang diinginkan. Contoh: tambahkan nama analis ke data nominatif
                      $nominatif->nama_analis = $analis_cocok->nama_analis;
+                     $nominatif->nohp_analis = $analis_cocok->nohp;
 
                      // Anda juga bisa menambahkan data lain jika perlu
                      // $nominatif['id_cabang_analis'] = $analis_cocok['id_cabang'];
@@ -872,57 +875,36 @@ class DashboardController extends Controller
             // $tunggBungaNumeric = (float)$cleanedBunga;
 
             // $tunggakanNumeric = $tunggPokokNumeric + $tunggBungaNumeric;
-            $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
 
-            $nama = $item->NAMA_SINGKAT;
-            $norek = $item->NO_REK_AFILIASI;
-            // $hp = substr_replace($item->no_petugas, '62', 0, 1);
+            if($item->KOLEKTIBILITY == 2){
+                $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
 
-            $message = $this->templateMessage(
-                $item->KOLEKTIBILITY,
-                $item->JML_HARI_TUNGPKK,
-                $nama,
-                "03232",
-                $tunggakan,
-                $item->nama_analis,
-                $norek
-            );
+                $nama = $item->NAMA_SINGKAT;
+                $norek = $item->NO_REK_AFILIASI;
+                $hp = substr_replace($item->nohp_analis, '62', 0, 1);
 
-            $payload = [
-                "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
-                "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
-                "to"  => "6282169146904", // atau mengambil dari database/request
-                "message" => $message,
-            ];
 
-            SendWhatsAppTunggakan::dispatch($payload);
+                $message = $this->templateMessage(
+                    $item->KOLEKTIBILITY,
+                    $item->JML_HARI_TUNGPKK,
+                    $nama,
+                    $hp,
+                    $tunggakan,
+                    $item->nama_analis,
+                    $norek
+                );
 
-            // try {
-            //     $response = Http::timeout(130)->post("https://app.wapanels.com/api/create-message", $payload);
+                $payload = [
+                    "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
+                    "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
+                    "to"  => "6282169146904", // atau mengambil dari database/request
+                    "message" => $message,
+                ];
 
-            //     if (!$response->successful()) {
-            //         // Log::channel('scheduler')->error('Failed to send queued WhatsApp message.', [
-            //         //     'status' => $response->status(),
-            //         //     'body'   => $response->body(),
-            //         //     'payload_sent' => $payload
-            //         // ]);
-            //     }else{
-            //         // return "Gagal mengirim pesan WhatsApp: " . $response->body();
-            //     }
-            // } catch (Throwable $e) {
-            //     Log::channel('scheduler')->critical('Exception during queued WhatsApp message sending.', [
-            //         'error_message' => $e->getMessage(),
-            //         'payload_sent' => $payload,
-            //     ]);
-            //     return $e->getMessage();
-            // }
+                SendWhatsAppTunggakan::dispatch($payload);
+            }
 
-            // SendWhatsAppTunggakan::dispatch($payload);
         }
-
-        return back()->with('success', 'Proses pengiriman ' . count($dataBlast) . ' pesan telah dimulai.');
-
-        // return $message;
 
     }
 
@@ -1272,7 +1254,7 @@ class DashboardController extends Controller
         $message = "Kepada Bapak/Ibu $nama
 Nasabah kami yang terhormat, Semoga Bapak/Ibu $nama senantiasa sehat dan diberikan kelancaran dalam setiap aktivitas usahanya saat ini. Dengan segala hormat dan pengertian, kami ingin menyampaikan sebuah catatan mengenai pinjaman Bapak/Ibu $nama. Berdasarkan data kami, saat ini terdapat keterlambatan pembayaran dengan jumlah tunggakan sebesar Rp $total_tunggakan Kami memahami bahwa fokus Bapak/ Ibu $nama tentu sedang tercurah pada pengembangan usaha. Oleh karena itu, agar hal ini tidak sampai mengganggu konsentrasi, kami sangat mengharapkan kewajiban tersebut dapat segera ditunaikan pada kesempatan pertama.
 
-Langkah ini penting untuk menjaga agar kondisi pinjaman Bapak/Ibu $nama tetap baik dan lancar, demi kenyamanan bersama. Atas perhatian dan kerja sama Bapak/ibu $nama kami mengucapkan terima kasih banyak.";
+Langkah ini penting untuk menjaga agar kondisi pinjaman Bapak/Ibu $nama tetap baik dan lancar, demi kenyamanan bersama. Atas perhatian dan kerja sama Bapak/ibu $nama kami mengucapkan terima kasih banyak. *Abaikan Pesan Ini Jika Sudah Membayar* Silahkan menghubungi petugas kami Sdr/i $petugas di  https://wa.me/$phone";
         return $message;
     }
 
