@@ -265,10 +265,13 @@
               </div>
             </li>
             <li class="nav-item">
+                @if (Auth::user()->rules == 0)
                 <a href="/user" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="forms">
-                  <span class="menu-title">Data User</span>
-                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-                </a>
+                    <span class="menu-title">Data User</span>
+                    <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                  </a>
+                @endif
+
                 <div class="collapse" id="forms">
                   <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
@@ -278,10 +281,13 @@
                 </div>
               </li>
               <li class="nav-item">
+                @if (Auth::user()->rules == 0)
                 <a href="/cabang" class="nav-link {{ Request::is('cabang') ? 'active' : ''}}" aria-controls="forms">
                   <span class="menu-title">Cabang</span>
                   <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                 </a>
+                @endif
+
                 <div class="collapse" id="forms">
                   <ul class="nav flex-column sub-menu">
                     <li class="nav-item">

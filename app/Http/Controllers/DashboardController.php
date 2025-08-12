@@ -33,6 +33,7 @@ class DashboardController extends Controller
 
     public function dashboardCabang($cabang)
     {
+        // return Auth::user()->rules;
         // return $this->formatCurrency(5050000000);
         // return $cabang;
         $data = DB::select("SELECT TANGGAL,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cabang;
 use App\Models\Data;
 use App\Models\Nominatif;
 use App\Models\Surat;
@@ -12,7 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
 
 class SendMessageController extends Controller
 {
@@ -150,9 +151,13 @@ class SendMessageController extends Controller
     // dan mengembalikan HTTP response yang sesuai.
     public function index()
     {
+        // return "haha";
+        // return Auth::user();
+        $cabang = Cabang::whereId(Auth::user()->id_cabang)->first();
+
         $data = Nominatif::where("KOLEKTIBILITY",">=","2")->get();
 
-        $dataKolektibilitas = DB::select("SELECT TANGGAL, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY = 1) AS total_nasabah_lancar, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY = 2) AS total_nasabah_dpk, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY >= 3) AS total_nasabah_npl, SUM(CASE WHEN KOLEKTIBILITY = 1 THEN NILAI_WAJAR ELSE 0 END) AS LANCAR, SUM(CASE WHEN KOLEKTIBILITY = 2 THEN NILAI_WAJAR ELSE 0 END) AS DPK, SUM(CASE WHEN KOLEKTIBILITY >= 3 THEN NILAI_WAJAR ELSE 0 END) AS NPL, SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif GROUP BY TANGGAL ORDER BY TANGGAL DESC LIMIT 1");
+        $dataKolektibilitas = DB::select("SELECT TANGGAL, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY = 1) AS total_nasabah_lancar, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY = 2) AS total_nasabah_dpk, (SELECT COUNT(DISTINCT NO_REK) FROM tbl_nominatif WHERE KOLEKTIBILITY >= 3) AS total_nasabah_npl, SUM(CASE WHEN KOLEKTIBILITY = 1 THEN NILAI_WAJAR ELSE 0 END) AS LANCAR, SUM(CASE WHEN KOLEKTIBILITY = 2 THEN NILAI_WAJAR ELSE 0 END) AS DPK, SUM(CASE WHEN KOLEKTIBILITY >= 3 THEN NILAI_WAJAR ELSE 0 END) AS NPL, SUM(NILAI_WAJAR) as NILAI_WAJAR FROM tbl_nominatif where tbl_nominatif.KD_CAB_KONSOL = $cabang->kode_cabang GROUP BY TANGGAL ORDER BY TANGGAL DESC LIMIT 1");
 
 
 

@@ -24,8 +24,9 @@ class CapemController extends Controller
 
     public function index(){
 
+        // return Auth::user()->id_cabang;
         $cabang = Cabang::all();
-        $capem =  Capem::all();
+        $capem =  Capem::whereIdCabang(Auth::user()->id_cabang)->get();
 
 
         return view('capem',[
@@ -37,8 +38,11 @@ class CapemController extends Controller
     public function store(Request $request)
     {
 
-        // return $request->all();;
-        Capem::create($request->all());
+        if(Auth::user()->rules == 1){
+            $request['id_cabang'] = Auth::user()->id_cabang;
+            Capem::create($request->all());
+        }
+
 
         return redirect()->back()->with('success', 'Data berhasil diupload!');
 

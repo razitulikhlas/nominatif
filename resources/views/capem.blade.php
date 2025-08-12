@@ -19,6 +19,7 @@
                         <form class="forms-sample" action="/capem" method="POST">
                             @csrf
                             <div class="form-group">
+                                @if (Auth::user()->rules == 0)
                                 <div class="mb-3">
                                     <label for="id_cabang" class="form-label">Cabang</label>
                                     <select class="form-select" id="id_cabang" name="id_cabang" required>
@@ -28,6 +29,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @endif
                                 <div class="mb-3">
                                     <label for="kode_capem" class="form-label">Kode Capem</label>
                                     <input type="kode_capem" class="form-control" id="kode_capem" name="kode_capem"
