@@ -1,7 +1,7 @@
 {{-- filepath: /Users/razitulikhlas/whatsaAppBlast/resources/views/nominatif.blade.php --}}
 @extends('layouts.main')
 @section('content')
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="background-color: #f8f9fa">
         <div class="row">
             <div class="col-4 grid-margin">
                 <div class="card">

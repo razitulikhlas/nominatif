@@ -9,6 +9,7 @@ use App\Models\Capem;
 use App\Models\ChartKredit;
 use App\Models\Nominatif;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,9 +52,29 @@ class DashboardController extends Controller
             $infoNilaiWajar = $this->formatCurrency($posisi->NILAI_WAJAR);
             $infoTurunNilaiWajar = $this->formatCurrency($posisi->TURUN_NILAI_WAJAR);
 
-            $dataNBNPL = DB::select("SELECT * FROM tbl_nominatif WHERE KOLEKTIBILITY >= 3 AND TANGGAL = ? AND KD_CAB_KONSOL = ? ORDER BY NAMA_SINGKAT", [$posisi->TANGGAL, $cabang]);
-            $dataNBDPK = DB::select("SELECT * FROM tbl_nominatif WHERE KOLEKTIBILITY = 2 AND TANGGAL = ? AND KD_CAB_KONSOL = ? ORDER BY NAMA_SINGKAT", [$posisi->TANGGAL, $cabang]);
+            $dataNBNPL = DB::select("SELECT * FROM tbl_nominatif WHERE KOLEKTIBILITY >= 3 AND TANGGAL = ? AND KD_CAB_KONSOL = ? ORDER BY JML_HARI_TUNGPKK asc", [$posisi->TANGGAL, $cabang]);
+            $dataNBDPK = DB::select("SELECT * FROM tbl_nominatif WHERE KOLEKTIBILITY = 2 AND TANGGAL = ? AND KD_CAB_KONSOL = ? ORDER BY JML_HARI_TUNGPKK asc", [$posisi->TANGGAL, $cabang]);
             $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND id_cabang = ? order by nama_analis asc", [Auth::user()->id_cabang]);
+
+            if($dataNBDPK){
+                foreach ($dataNBDPK as $item) {
+                    $tahunSingkat = substr($item->TGL_PENCAIRAN, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+                }
+            }
+
+            if($dataNBNPL){
+                foreach ($dataNBNPL as $item) {
+                    $tahunSingkat = substr($item->TGL_PENCAIRAN, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+                }
+            }
+
+            // return $dataNBDPK;
 
 
             // return $analisKredit;
@@ -80,13 +101,15 @@ class DashboardController extends Controller
             $dpk = ($posisi->DPK / $total_kredit) * 100;
 
 
-            $lancar = number_format((float)($lancar ?? 0), 0, ',', '.');
-            $npl = number_format((float)($npl ?? 0), 0, ',', '.');
-            $dpk = number_format((float)($dpk ?? 0), 0, ',', '.');
+            $lancar = number_format((float)($lancar ?? 0), 1, '.', ',');
+            $npl = number_format((float)($npl ?? 0), 1, '.', ',');
+            $dpk = number_format((float)($dpk ?? 0), 1, '.', ',');
 
 
-            $setData = [(float)$lancar, (float) $dpk, (float)$npl];
+            $setData = [(float)$lancar,  (float)$dpk, (float)$npl];
             $setKeterangan = ["Lancar", "DPK", "NPL"];
+
+            // return $setData;
 
 
 
@@ -184,7 +207,7 @@ class DashboardController extends Controller
                 ]
             );
         }
-        return $data;
+        return view('dasboardempty');
     }
 
     public function dashboardCapem($capem)

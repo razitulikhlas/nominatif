@@ -42,7 +42,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('template/dist/assets/images/favicon.png')}}" />
   </head>
-  <body class="antialiased text-gray-800">
+  <body class="antialiased text-gray-800" style="background-color: white">
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -377,15 +377,15 @@
           </ul>
         </nav>
         <!-- partial -->
-        <div class="main-panel">
+        <div class="main-panel" >
             @yield('content')
 
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
-          <footer class="footer">
+          <footer class="footer" style="background-color: #ffffff;">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2025 <a href="" target="_blank">Razitul Ikhlas</a>. All rights reserved.</span>
+
             </div>
           </footer>
           <!-- partial -->

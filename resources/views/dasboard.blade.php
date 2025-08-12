@@ -14,8 +14,8 @@
         }
 
         /* body {
-                    font-family: 'Inter', sans-serif;
-                } */
+                                font-family: 'Inter', sans-serif;
+                            } */
         .card-icon-gradient {
             background-image: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
         }
@@ -241,9 +241,9 @@
         }
 
         /* @keyframes spin {
-                                                            0% { transform: rotate(0deg); }
-                                                            100% { transform: rotate(360deg); }
-                                                        } */
+                                                                        0% { transform: rotate(0deg); }
+                                                                        100% { transform: rotate(360deg); }
+                                                                    } */
 
         @media (max-width: 600px) {
             .container {
@@ -351,40 +351,70 @@
 
             <!-- Card 1: Nilai DPK -->
             <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center space-x-5 transition-transform duration-300 hover:-translate-y-1">
-                <div
-                    class="card-icon-gradient from-blue-500 to-blue-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-money-bill-wave text-2xl"></i>
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-blue-500 to-blue-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-money-bill-wave text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">DPK</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiDPK">Rp {{ $infoDPK }}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">DPK</p>
-                    <p class="text-slate-800 text-3xl font-bold" id="infoNilaiDPK">Rp {{ $infoDPK }}</p>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    <span class="px-3 py-1.5 text-xl text-center font-semibold text-blue-800 bg-blue-100 rounded-full"
+                        id="persentaseDPK">
+                        {{ $donutD[1] }}%
+                    </span>
                 </div>
             </div>
 
             <!-- Card 2: Nilai NPL -->
             <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center space-x-5 transition-transform duration-300 hover:-translate-y-1">
-                <div
-                    class="card-icon-gradient from-red-500 to-red-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-red-500 to-red-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">NPL</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiNPL">Rp {{ $infoNPL }}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">NPL</p>
-                    <p class="text-slate-800 text-3xl font-bold" id="infoNilaiNPL">Rp {{ $infoNPL }}</p>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    <span class="px-3 py-1.5 text-xl font-semibold text-red-800 bg-red-100 rounded-full" id="persentaseNPL">
+                        {{ $donutD[2] }}%
+                    </span>
                 </div>
             </div>
-
             <!-- Card 3: Nilai Wajar -->
             <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center space-x-5 transition-transform duration-300 hover:-translate-y-1">
-                <div
-                    class="card-icon-gradient from-emerald-500 to-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-scale-balanced text-2xl"></i>
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-emerald-500 to-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-scale-balanced text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">Nilai Wajar</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiWajar">Rp
+                            {{ $infoNilaiWajar }}</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">Nilai Wajar</p>
-                    <p class="text-slate-800 text-3xl font-bold" id="infoNilaiWajar">Rp {{ $infoNilaiWajar }}</p>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    {{-- <span class="px-3 py-1.5 text-xl font-semibold text-emerald-800 bg-emerald-100 rounded-full" id="persentaseNilaiWajar">
+                        {{$donutD[0]}}%
+                    </span> --}}
                 </div>
             </div>
 
@@ -512,6 +542,9 @@
                                         <th>NAMA</th>
                                         <th>NOREK</th>
                                         <th>NILAI WAJAR</th>
+                                        <th>TANGGAL CAIR</th>
+                                        <th>HTP</th>
+                                        <th>HTB</th>
                                         <th>KOLEKTIBILITY</th>
                                         <th>POSISI</th>
                                     </tr>
@@ -526,6 +559,9 @@
                                             <td>{{ $item->NAMA_SINGKAT }}</td>
                                             <td>{{ $item->NO_REK }}</td>
                                             <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
+                                            <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                            <td>{{ $item->JML_HARI_TUNGPKK }}</td>
+                                            <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                             <td>{{ $item->KOLEKTIBILITY }}</td>
                                             <td>{{ $item->TANGGAL }}</td>
                                         </tr>
@@ -558,6 +594,9 @@
                                         <th>NAMA</th>
                                         <th>NOREK</th>
                                         <th>NILAI WAJAR</th>
+                                        <th>TANGGAL CAIR</th>
+                                        <th>HTP</th>
+                                        <th>HTB</th>
                                         <th>KOLEKTIBILITY</th>
                                         <th>POSISI</th>
                                     </tr>
@@ -571,6 +610,9 @@
                                             <td>{{ $item->NAMA_SINGKAT }}</td>
                                             <td>{{ $item->NO_REK }}</td>
                                             <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
+                                            <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                            <td>{{ $item->JML_HARI_TUNGPKK }}</td>
+                                            <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                             <td>{{ $item->KOLEKTIBILITY }}</td>
                                             <td>{{ $item->TANGGAL }}</td>
                                         </tr>
@@ -618,32 +660,32 @@
 
                 // Jika tidak ada cabang yang dipilih (atau memilih "Semua"), jangan lakukan apa-apa
 
-                    // 3. Lakukan panggilan AJAX ke server
-                    $.ajax({
-                        // URL ke rute yang kita buat di Laravel
-                        url: '/analisfilter/' + cabangId,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            // loadingOverlay.classList.remove('show');
-                            // 4. Jika panggilan berhasil, proses data yang diterima
-                            if (data) {
-                                // Loop setiap item analis dari response JSON
-                                // console.log(data);
-                                $.each(data, function(key, analis) {
-                                    // Tambahkan sebagai <option> baru ke dropdown analis
-                                    analisDropdown.append('<option value="' + analis
-                                        .kode_analis + '">' + analis.nama_analis +
-                                        '</option>');
-                                });
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            // loadingOverlay.classList.remove('show');
-                            // Handle jika terjadi error
-                            console.error("AJAX Error: " + status + " - " + error);
+                // 3. Lakukan panggilan AJAX ke server
+                $.ajax({
+                    // URL ke rute yang kita buat di Laravel
+                    url: '/analisfilter/' + cabangId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // loadingOverlay.classList.remove('show');
+                        // 4. Jika panggilan berhasil, proses data yang diterima
+                        if (data) {
+                            // Loop setiap item analis dari response JSON
+                            // console.log(data);
+                            $.each(data, function(key, analis) {
+                                // Tambahkan sebagai <option> baru ke dropdown analis
+                                analisDropdown.append('<option value="' + analis
+                                    .kode_analis + '">' + analis.nama_analis +
+                                    '</option>');
+                            });
                         }
-                    });
+                    },
+                    error: function(xhr, status, error) {
+                        // loadingOverlay.classList.remove('show');
+                        // Handle jika terjadi error
+                        console.error("AJAX Error: " + status + " - " + error);
+                    }
+                });
 
             });
 
@@ -939,6 +981,23 @@
                                         beginAtZero: true
                                     }
                                 },
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                // console.log(context.parsed);
+                                                let label = context.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed.y !== null) {
+                                                    label += context.parsed + '%';
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                },
                                 responsive: true,
                                 maintainAspectRatio: false, // <-- TERAPKAN DI SINI JUGA
                                 // ...opsi lainnya
@@ -1092,7 +1151,7 @@
             data: {
                 labels: @json($donutL),
                 datasets: [{
-                    label: "Prsentase",
+                    label: "Persentase",
                     data: @json($donutD),
                     backgroundColor: [
                         'rgb(0,100,0)',
@@ -1108,6 +1167,23 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                // console.log(context.parsed);
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
                     }
                 },
                 responsive: true,

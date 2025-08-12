@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-<div class="content-wrapper">
+<div class="content-wrapper" style="background-color: #f8f9fa">
 
     {{-- Contoh Alert (opsional, bisa dihapus) --}}
     @if(session('success'))

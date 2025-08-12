@@ -1,12 +1,12 @@
 {{-- filepath: /Users/razitulikhlas/whatsaAppBlast/resources/views/nominatif.blade.php --}}
 @extends('layouts.main')
 @section('content')
- <div class="content-wrapper">
+ <div class="content-wrapper" style="background-color: #f8f9fa">
     <div class="row">
         <div class="col-12 grid-margin">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Upload data nominatif</h4>
+              <h4 class="card-title">Upload data afiliasi</h4>
               @if ($errors->any())
                   <div class="alert alert-danger">
                       <ul>
