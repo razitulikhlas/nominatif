@@ -252,10 +252,10 @@
               </div>
             </li>
             <li class="nav-item">
-              <a href="/kredit" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="forms">
+              {{-- <a href="/kredit" class="nav-link {{ Request::is('account') ? 'active' : ''}}" aria-controls="forms">
                 <span class="menu-title">Data kredit</span>
                 <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-              </a>
+              </a> --}}
               <div class="collapse" id="forms">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
