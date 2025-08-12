@@ -795,11 +795,13 @@
                     },
                     success: function(response) {
                         loadingOverlay.classList.remove('show');
-                        // return console.log('Respons dari server:', response.danpl);
+                        // return console.log('Respons dari server:', response);
                         $('#infoNilaiWajar').text(response.infoNilaiWajar);
                         $('#infoNilaiDPK').text(response.infoDPK);
                         $('#infoNilaiNPL').text(response.infoNPL);
                         $('#infoPenurunanNilaiWajar').text(response.infoTurunNilaiWajar);
+                        $('#persentaseDPK').text(response.donutD[1] + '%');
+                        $('#persentaseNPL').text(response.donutD[2] + '%');
                         if (response.dataNBNPL && response.dataNBNPL.length > 0) {
                             tableNPL.clear();
                             var dataSetNPL = response.dataNBNPL.map(function(item, index) {
@@ -811,6 +813,9 @@
                                     // Format angka di sisi klien (lebih disarankan)
                                     new Intl.NumberFormat('id-ID').format(item
                                         .NILAI_WAJAR),
+                                    item.TGL_PENCAIRAN,
+                                    item.JML_HARI_TUNGPKK,
+                                    item.JML_HARI_TUNGBNG,
                                     item.KOLEKTIBILITY,
                                     item.TANGGAL
                                 ];
@@ -835,6 +840,9 @@
                                     // Format angka di sisi klien (lebih disarankan)
                                     new Intl.NumberFormat('id-ID').format(item
                                         .NILAI_WAJAR),
+                                    item.TGL_PENCAIRAN,
+                                    item.JML_HARI_TUNGPKK,
+                                    item.JML_HARI_TUNGBNG,
                                     item.KOLEKTIBILITY,
                                     item.TANGGAL
                                 ];

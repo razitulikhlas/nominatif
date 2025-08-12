@@ -569,6 +569,8 @@ class DashboardController extends Controller
 
         $sql .= " GROUP BY TANGGAL ORDER BY TANGGAL";
 
+        return $sql;
+
         $data = DB::select($sql);
 
 
@@ -586,11 +588,31 @@ class DashboardController extends Controller
 
             $sqlDPK .= " AND TANGGAL = '" . $posisi->TANGGAL . "'";
             $sqlNPL .= " AND TANGGAL = '" . $posisi->TANGGAL . "'";
+            $sqlDPK .= " ORDER BY JML_HARI_TUNGPKK asc";
+            $sqlNPL .= " ORDER BY JML_HARI_TUNGPKK asc";
 
             // return $sqlNPL;
 
             $dataNBNPL = DB::select($sqlNPL);
             $dataNBDPK = DB::select($sqlDPK);
+
+            if($dataNBDPK){
+                foreach ($dataNBDPK as $item) {
+                    $tahunSingkat = substr($item->TGL_PENCAIRAN, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+                }
+            }
+
+            if($dataNBNPL){
+                foreach ($dataNBNPL as $item) {
+                    $tahunSingkat = substr($item->TGL_PENCAIRAN, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+                }
+            }
 
             foreach ($data as $key => $value) {
                 $grafikTanggal[$key] = date('d F Y', strtotime($value->TANGGAL));
@@ -607,9 +629,13 @@ class DashboardController extends Controller
             $dpk = ($posisi->DPK / $posisi->NILAI_WAJAR) * 100;
 
 
-            $lancar = number_format((float)($lancar ?? 0), 0, ',', '.');
-            $npl = number_format((float)($npl ?? 0), 0, ',', '.');
-            $dpk = number_format((float)($dpk ?? 0), 0, ',', '.');
+            $lancar = number_format((float)($lancar ?? 0), 1, '.', ',');
+            $npl = number_format((float)($npl ?? 0), 1, '.', ',');
+            $dpk = number_format((float)($dpk ?? 0), 1, '.', ',');
+
+
+            $setData = [(float)$lancar,  (float)$dpk, (float)$npl];
+            $setKeterangan = ["Lancar", "DPK", "NPL"];
 
             $user = Auth::user();
             $cabang = Cabang::whereId(Auth::user()->id_cabang)->first();
@@ -679,9 +705,6 @@ class DashboardController extends Controller
              }
 
 
-
-            $setData = [(float)$lancar, (float) $dpk, (float)$npl];
-            $setKeterangan = ["Lancar", "DPK", "NPL"];
 
             return [
                 'infoDPK' => $infoDPK,
