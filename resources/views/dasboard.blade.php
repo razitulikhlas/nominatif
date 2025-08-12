@@ -966,7 +966,7 @@
 
             $('#sendMessage').on('click', function() {
                 // Logika sisi klien (opsional)
-                // console.log('Tombol diklik, mengirim request dengan jQuery...');
+                console.log('Tombol diklik, mengirim request dengan jQuery...');
                 const loadingOverlay = document.getElementById('loading-overlay');
 
                 // 1. Tampilkan loading screen dengan efek transisi
@@ -988,14 +988,14 @@
                     success: function(response) {
                         loadingOverlay.classList.remove('show');
                         // 4. Jika request berhasil (success)
-                        // console.log('Respons dari server:', response);
+                        console.log('Respons dari server:', response);
                         // const message = `<div class="alert alert-success">${response.message}</div>`;
                         // $('#hasil').html(message);
                         // loadingOverlay.classList.remove('show');
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         // 5. Jika terjadi error
-                        // console.error('Gagal melakukan request:', textStatus, errorThrown);
+                        console.error('Gagal melakukan request:', textStatus, errorThrown);
                         const message =
                             `<div class="alert alert-danger">Terjadi kesalahan.</div>`;
                         $('#hasil').html(message);

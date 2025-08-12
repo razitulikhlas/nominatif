@@ -709,14 +709,18 @@ class DashboardController extends Controller
             $params[] = $tanggalAkhir;
         }
 
+        $analisKredit = null;
         // Filter untuk cabang
         if (!empty($cabangI)) {
             $conditions[] = "kd_cab = $cabangI"; // Ganti nama kolom jika perlu
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND kode_analis like'%$cabangI%' order by nama_analis asc");
             $params[] = $cabangI;
         } else {
             $userCabang = Cabang::whereId(Auth::user()->id_cabang)->first();
+            $analisKredit = DB::select("SELECT * FROM `tbL_analis` WHERE nama_analis not like 'KONSUMTIF%' AND id_cabang = ? order by nama_analis asc", [Auth::user()->id_cabang]);
             $conditions[] = "kd_cab_konsol = $userCabang->kode_cabang";
         }
+
 
         // Filter untuk kode analis
         if (!empty($kodeAnalis)) {
@@ -746,34 +750,76 @@ class DashboardController extends Controller
             }
         }
 
-        $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,tbL_analis.nama_analis,tbL_analis.nohp as no_petugas,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
-            from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK INNER JOIN tbL_analis on tbl_nominatif.KD_AO = tbL_analis.kode_analis
-            WHERE tbl_nominatif.KOLEKTIBILITY > 1
-            AND tbl_nominatif.TUNGG_POKOK != 0
-            AND tbl_nominatif.TUNGG_BUNGA != 0
-            AND tbl_nominatif.NOHP != ''
-            AND tbl_nominatif.NOHP != '0'
-            AND tbl_nominatif.NOHP != '00'
-            AND tbl_nominatif.NOHP != '080'
-            AND tbl_nominatif.NOHP != '0812'
-            AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
-            AND tbl_afiliasi.NO_REK_AFILIASI != ''
-            AND tbl_nominatif.TANGGAL = (SELECT MAX(TANGGAL) FROM tbl_nominatif)";
-
-        if (!empty($conditions)) {
-            $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
-        }
+        $user = Auth::user();
+            $cabang = Cabang::whereId(Auth::user()->id_cabang)->first();
+            // return;
 
 
-        $sqlTunggakan .= " GROUP BY NAMA_SINGKAT";
+            $maxTanggal = DB::select('select max(tanggal) as tanggal from tbl_nominatif where kd_cab_konsol = ?', [$cabang->kode_cabang]);
 
-        // $message = [];
+            $maxTanggal = $maxTanggal[0]->tanggal ?? null;
 
-        // return $sqlTunggakan;
+            $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,tbl_afiliasi.NO_REK_AFILIASI,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
+                from tbl_nominatif left JOIN tbl_afiliasi on tbl_nominatif.NO_REK = tbl_afiliasi.NO_REK
+                WHERE tbl_nominatif.KOLEKTIBILITY > 1
+               AND tbl_nominatif.TUNGG_POKOK != 0
+                AND tbl_nominatif.TUNGG_BUNGA != 0
+                AND tbl_nominatif.NOHP != ''
+                AND tbl_nominatif.NOHP != '0'
+                AND tbl_nominatif.NOHP != '00'
+                AND tbl_nominatif.NOHP != '080'
+                AND tbl_nominatif.NOHP != '0812'
+                AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
+                AND tbl_afiliasi.NO_REK_AFILIASI != ''
+                AND tbl_nominatif.TANGGAL =  '$maxTanggal'";
 
-        $dataBlast = DB::select($sqlTunggakan);
+                if (!empty($conditions)) {
+                    $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
+                }
 
-        foreach ($dataBlast as $item) {
+
+            $sqlTunggakan .= " GROUP BY NAMA_SINGKAT";
+
+            // return $sqlTunggakan;
+
+            $dataBlast = DB::select($sqlTunggakan);
+
+            // return $dataBlast;
+
+             // Buat peta pencarian kosong
+             $peta_analis = [];
+
+             // Loop melalui data analis HANYA SATU KALI untuk membuat peta
+             foreach ($analisKredit as $analis) {
+                 // Jadikan 'kode_analis' sebagai kunci dan seluruh objek analis sebagai nilainya
+                 $peta_analis[$analis->kode_analis] = $analis;
+             }
+
+             $hasil_join = [];
+
+             // Loop melalui data nominatif
+             foreach ($dataBlast as $nominatif) {
+                 $kode_ao = $nominatif->KD_AO;
+
+                 // Cek apakah kode AO dari nominatif ada sebagai kunci di peta analis kita
+                 if (isset($peta_analis[$kode_ao])) {
+                     // Jika cocok, kita temukan analisnya!
+                     $analis_cocok = $peta_analis[$kode_ao];
+
+                     // Gabungkan data yang diinginkan. Contoh: tambahkan nama analis ke data nominatif
+                     $nominatif->nama_analis = $analis_cocok->nama_analis;
+
+                     // Anda juga bisa menambahkan data lain jika perlu
+                     // $nominatif['id_cabang_analis'] = $analis_cocok['id_cabang'];
+
+                     // Masukkan objek nominatif yang sudah diperbarui ke dalam hasil akhir
+                     $hasil_join[] = $nominatif;
+                 }
+             }
+
+            //  return $hasil_join;
+
+        foreach ($hasil_join as $item) {
 
             // Konversi ke float
             // $tunggPokokNumeric = (float)$cleanedPokok;
@@ -784,13 +830,13 @@ class DashboardController extends Controller
 
             $nama = $item->NAMA_SINGKAT;
             $norek = $item->NO_REK_AFILIASI;
-            $hp = substr_replace($item->no_petugas, '62', 0, 1);
+            // $hp = substr_replace($item->no_petugas, '62', 0, 1);
 
             $message = $this->templateMessage(
                 $item->KOLEKTIBILITY,
                 $item->JML_HARI_TUNGPKK,
                 $nama,
-                $hp,
+                "03232",
                 $tunggakan,
                 $item->nama_analis,
                 $norek

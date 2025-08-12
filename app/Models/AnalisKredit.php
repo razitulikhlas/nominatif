@@ -12,6 +12,7 @@ class AnalisKredit extends Model
         'id_cabang',
         'kode_analis',
         'nama_analis',
+        'nohp'
     ];
 
     public $timestamps = false; // Jika tabel tidak memiliki kolom created_at dan updated_at

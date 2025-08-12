@@ -20,8 +20,8 @@
                             @csrf
                             <div class="form-group">
                                 <div class="mb-3">
-                                    <label for="cabang" class="form-label">Cabang</label>
-                                    <select class="form-select" id="cabang" name="cabang" required>
+                                    <label for="id_cabang" class="form-label">Cabang</label>
+                                    <select class="form-select" id="id_cabang" name="id_cabang" required>
                                         <option selected disabled value="">Pilih Cabang...</option>
                                         @foreach ($cabang as $item )
                                          <option value="{{$item->id}}">{{$item->nama_cabang}}</option>

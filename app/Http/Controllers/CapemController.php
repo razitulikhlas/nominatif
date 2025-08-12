@@ -37,6 +37,7 @@ class CapemController extends Controller
     public function store(Request $request)
     {
 
+        // return $request->all();;
         Capem::create($request->all());
 
         return redirect()->back()->with('success', 'Data berhasil diupload!');
