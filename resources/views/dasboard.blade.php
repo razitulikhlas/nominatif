@@ -14,8 +14,8 @@
         }
 
         /* body {
-                                font-family: 'Inter', sans-serif;
-                            } */
+                                            font-family: 'Inter', sans-serif;
+                                        } */
         .card-icon-gradient {
             background-image: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
         }
@@ -241,9 +241,9 @@
         }
 
         /* @keyframes spin {
-                                                                        0% { transform: rotate(0deg); }
-                                                                        100% { transform: rotate(360deg); }
-                                                                    } */
+                                                                                    0% { transform: rotate(0deg); }
+                                                                                    100% { transform: rotate(360deg); }
+                                                                                } */
 
         @media (max-width: 600px) {
             .container {
@@ -256,6 +256,95 @@
         }
     </style>
     <div class="content-wrapper" style="background-color: #f8f9fa;">
+
+
+           <!-- Grid untuk Kartu -->
+           <div class="grid grid-cols-3 lg:grid-cols-2 gap-6 mb-6">
+
+            <!-- Card 1: Nilai DPK -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-blue-500 to-blue-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-money-bill-wave text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">DPK</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiDPK">Rp {{ $infoDPK }}
+                        </p>
+                    </div>
+                </div>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    <span class="px-3 py-1.5 text-xl text-center font-semibold text-blue-800 bg-blue-100 rounded-full"
+                        id="persentaseDPK">
+                        {{ $donutD[1] }}%
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 2: Nilai NPL -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-red-500 to-red-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">NPL</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiNPL">Rp {{ $infoNPL }}
+                        </p>
+                    </div>
+                </div>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    <span class="px-3 py-1.5 text-xl font-semibold text-red-800 bg-red-100 rounded-full" id="persentaseNPL">
+                        {{ $donutD[2] }}%
+                    </span>
+                </div>
+            </div>
+            <!-- Card 3: Nilai Wajar -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
+                <!-- Grup Kiri: Ikon dan Teks Utama -->
+                <div class="flex items-center space-x-5">
+                    <div
+                        class="card-icon-gradient from-emerald-500 to-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-scale-balanced text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-sm font-medium uppercase">Nilai Wajar</p>
+                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiWajar">Rp
+                            {{ $infoNilaiWajar }}</p>
+                    </div>
+                </div>
+                <!-- Grup Kanan: Kotak Persentase -->
+                <div class="ml-4">
+                    {{-- <span class="px-3 py-1.5 text-xl font-semibold text-emerald-800 bg-emerald-100 rounded-full" id="persentaseNilaiWajar">
+                        {{$donutD[0]}}%
+                    </span> --}}
+                </div>
+            </div>
+
+            <!-- Card 4: Penurunan Nilai Wajar -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center space-x-5 transition-transform duration-300 hover:-translate-y-1">
+                <div
+                    class="card-icon-gradient from-amber-500 to-amber-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-arrow-down-wide-short text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-sm font-medium uppercase">Penurunan Nilai Wajar</p>
+                    <p class="text-slate-800 text-3xl font-bold" id="infoPenurunanNilaiWajar">Rp {{ $infoTurunNilaiWajar }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
 
 
         {{-- Data Filter --}}
@@ -346,95 +435,6 @@
             {{-- </form> --}}
         </div>
 
-        <!-- Grid untuk Kartu -->
-        <div class="grid grid-cols-3 lg:grid-cols-2 gap-6 mb-6">
-
-            <!-- Card 1: Nilai DPK -->
-            <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
-                <!-- Grup Kiri: Ikon dan Teks Utama -->
-                <div class="flex items-center space-x-5">
-                    <div
-                        class="card-icon-gradient from-blue-500 to-blue-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-                        <i class="fa-solid fa-money-bill-wave text-2xl"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-500 text-sm font-medium uppercase">DPK</p>
-                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiDPK">Rp {{ $infoDPK }}
-                        </p>
-                    </div>
-                </div>
-                <!-- Grup Kanan: Kotak Persentase -->
-                <div class="ml-4">
-                    <span class="px-3 py-1.5 text-xl text-center font-semibold text-blue-800 bg-blue-100 rounded-full"
-                        id="persentaseDPK">
-                        {{ $donutD[1] }}%
-                    </span>
-                </div>
-            </div>
-
-            <!-- Card 2: Nilai NPL -->
-            <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
-                <!-- Grup Kiri: Ikon dan Teks Utama -->
-                <div class="flex items-center space-x-5">
-                    <div
-                        class="card-icon-gradient from-red-500 to-red-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-                        <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-500 text-sm font-medium uppercase">NPL</p>
-                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiNPL">Rp {{ $infoNPL }}
-                        </p>
-                    </div>
-                </div>
-                <!-- Grup Kanan: Kotak Persentase -->
-                <div class="ml-4">
-                    <span class="px-3 py-1.5 text-xl font-semibold text-red-800 bg-red-100 rounded-full" id="persentaseNPL">
-                        {{ $donutD[2] }}%
-                    </span>
-                </div>
-            </div>
-            <!-- Card 3: Nilai Wajar -->
-            <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center justify-between transition-transform duration-300 hover:-translate-y-1">
-                <!-- Grup Kiri: Ikon dan Teks Utama -->
-                <div class="flex items-center space-x-5">
-                    <div
-                        class="card-icon-gradient from-emerald-500 to-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-                        <i class="fa-solid fa-scale-balanced text-2xl"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-500 text-sm font-medium uppercase">Nilai Wajar</p>
-                        <p class="text-slate-800 text-2xl md:text-3xl font-bold" id="infoNilaiWajar">Rp
-                            {{ $infoNilaiWajar }}</p>
-                    </div>
-                </div>
-                <!-- Grup Kanan: Kotak Persentase -->
-                <div class="ml-4">
-                    {{-- <span class="px-3 py-1.5 text-xl font-semibold text-emerald-800 bg-emerald-100 rounded-full" id="persentaseNilaiWajar">
-                        {{$donutD[0]}}%
-                    </span> --}}
-                </div>
-            </div>
-
-            <!-- Card 4: Penurunan Nilai Wajar -->
-            <div
-                class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex items-center space-x-5 transition-transform duration-300 hover:-translate-y-1">
-                <div
-                    class="card-icon-gradient from-amber-500 to-amber-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-arrow-down-wide-short text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-slate-500 text-sm font-medium uppercase">Penurunan Nilai Wajar</p>
-                    <p class="text-slate-800 text-3xl font-bold" id="infoPenurunanNilaiWajar">Rp {{ $infoTurunNilaiWajar }}
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-
         <div class="row">
             <div class="grid grid-cols-3 lg:grid-cols-2 gap-6 mb-6">
                 <!-- Grafik DPK -->
@@ -484,10 +484,13 @@
                                         <th>KD CABANG</th>
                                         <th>PETUGAS</th>
                                         <th>NAMA</th>
+                                        <th>JENIS KREDIT</th>
                                         <th>BAKI DEBET</th>
                                         <th>NOREK KREDIT</th>
-                                        <th>NOREK AFILIASI</th>
-                                        <th>No HP</th>
+                                        <th>TANGGAL CAIR</th>
+                                        <th>HTP</th>
+                                        <th>HTB</th>
+                                        <th>NO HP</th>
                                         <th>TOTAL TUNGGAKAN</th>
                                         <th>KOLEKTIBILITY</th>
                                         <th>POSISI</th>
@@ -503,12 +506,26 @@
                                                 <td>{{ $item->KD_CAB }}</td>
                                                 <td>{{ $item->nama_analis }}</td>
                                                 <td>{{ $item->NAMA_SINGKAT }}</td>
+                                                <td>{{ $item->PRD_NAME }}</td></td>
                                                 <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}
                                                 </td>
                                                 <td>{{ $item->NO_REK }}</td>
-                                                <td>{{ $item->NO_REK_AFILIASI }}</td>
+                                                <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                                <td>{{ $item->JML_HARI_TUNGPKK }}</td>
+                                                <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                                 <td>{{ $item->NOHP }}</td>
-                                                <td>{{ number_format((float) ($item->total_tunggakan ?? 0), 0, ',', '.') }}
+                                                @if ($item->total_tunggakan == 0)
+                                                    @if ($item->KOLEKTIBILITY == 2)
+                                                        <td><label class="badge badge-gradient-success">Restruck</label>
+                                                        </td>
+                                                    @else
+                                                    <td><label class="badge badge-gradient-danger">Macet</label>
+                                                    </td>
+                                                    @endif
+                                                @else
+                                                    <td>{{ number_format((float) ($item->total_tunggakan ?? 0), 0, ',', '.') }}
+                                                @endif
+
                                                 </td>
                                                 <td>{{ $item->KOLEKTIBILITY }}</td>
                                                 <td>{{ $item->TANGGAL }}</td>
@@ -866,10 +883,13 @@
                                     item.KD_CAB,
                                     item.nama_analis,
                                     item.NAMA_SINGKAT,
+                                    item.PRD_NAME,
                                     new Intl.NumberFormat('id-ID').format(item
                                         .NILAI_WAJAR),
                                     item.NO_REK,
-                                    item.NO_REK_AFILIASI,
+                                    item.TGL_PENCAIRAN,
+                                    item.JML_HARI_TUNGPKK,
+                                    item.JML_HARI_TUNGBNG,
                                     item.NOHP,
                                     new Intl.NumberFormat('id-ID').format(item
                                         .total_tunggakan),
