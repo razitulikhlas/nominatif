@@ -299,7 +299,7 @@
               <li class="nav-item">
                 <a href="/capem" class="nav-link {{ Request::is('capem') ? 'active' : ''}}" aria-controls="forms">
                   <span class="menu-title">Capem</span>
-                  <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                  <i class="mdi mdi-city menu-icon"></i>
                 </a>
                 <div class="collapse" id="forms">
                   <ul class="nav flex-column sub-menu">
@@ -325,7 +325,11 @@
             <li class="nav-item">
               <a class="nav-link {{ Request::is('nominatif') ? 'active' : ''}}" href="/nominatif"  aria-controls="charts">
                 <span class="menu-title">Nominatif</span>
-                <i class="mdi mdi-chart-bar menu-icon"></i>
+                <i class="mdi mdi-cloud-check menu-icon"></i>
+              </a>
+              <a class="nav-link {{ Request::is('nominatif') ? 'active' : ''}}" href="/logout"  aria-controls="charts">
+                <span class="menu-title">Logout</span>
+                <i class="mdi mdi-logout menu-icon"></i>
               </a>
               <div class="collapse" id="charts">
                 <ul class="nav flex-column sub-menu">
