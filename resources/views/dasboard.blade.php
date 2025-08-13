@@ -485,9 +485,10 @@
                                         <th>PETUGAS</th>
                                         <th>NAMA</th>
                                         <th>JENIS KREDIT</th>
-                                        <th>BAKI DEBET</th>
+                                        <th>NILAI WAJAR</th>
                                         <th>NOREK KREDIT</th>
                                         <th>TANGGAL CAIR</th>
+                                        <th>TANGGAL ADENDUM</th>
                                         <th>HTP</th>
                                         <th>HTB</th>
                                         <th>NO HP</th>
@@ -507,10 +508,11 @@
                                                 <td>{{ $item->nama_analis }}</td>
                                                 <td>{{ $item->NAMA_SINGKAT }}</td>
                                                 <td>{{ $item->PRD_NAME }}</td></td>
-                                                <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}
+                                                <td style="text-align: right">{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}
                                                 </td>
                                                 <td>{{ $item->NO_REK }}</td>
                                                 <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                                <td>{{ $item->TGL_PK }}</td>
                                                 <td>{{ $item->JML_HARI_TUNGPKK }}</td>
                                                 <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                                 <td>{{ $item->NOHP }}</td>
@@ -560,6 +562,7 @@
                                         <th>NOREK</th>
                                         <th>NILAI WAJAR</th>
                                         <th>TANGGAL CAIR</th>
+                                        <th>TANGGAL ADENDUM</th>
                                         <th>HTP</th>
                                         <th>HTB</th>
                                         <th>KOLEKTIBILITY</th>
@@ -575,8 +578,9 @@
                                             <td>{{ $item->KD_CAB }}</td>
                                             <td>{{ $item->NAMA_SINGKAT }}</td>
                                             <td>{{ $item->NO_REK }}</td>
-                                            <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
+                                            <td style="text-align: right">{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
                                             <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                            <td>{{ $item->TGL_PK }}</td>
                                             <td>{{ $item->JML_HARI_TUNGPKK }}</td>
                                             <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                             <td>{{ $item->KOLEKTIBILITY }}</td>
@@ -612,6 +616,7 @@
                                         <th>NOREK</th>
                                         <th>NILAI WAJAR</th>
                                         <th>TANGGAL CAIR</th>
+                                        <th>TANGGAL ADENDUM</th>
                                         <th>HTP</th>
                                         <th>HTB</th>
                                         <th>KOLEKTIBILITY</th>
@@ -626,8 +631,9 @@
                                             <td>{{ $item->KD_CAB }}</td>
                                             <td>{{ $item->NAMA_SINGKAT }}</td>
                                             <td>{{ $item->NO_REK }}</td>
-                                            <td>{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
+                                            <td style="text-align: right">{{ number_format((float) ($item->NILAI_WAJAR ?? 0), 0, ',', '.') }}</td>
                                             <td>{{ $item->TGL_PENCAIRAN }}</td>
+                                            <td>{{ $item->TGL_PK }}</td>
                                             <td>{{ $item->JML_HARI_TUNGPKK }}</td>
                                             <td>{{ $item->JML_HARI_TUNGBNG }}</td>
                                             <td>{{ $item->KOLEKTIBILITY }}</td>
@@ -831,6 +837,7 @@
                                     new Intl.NumberFormat('id-ID').format(item
                                         .NILAI_WAJAR),
                                     item.TGL_PENCAIRAN,
+                                    item.TGL_PK,
                                     item.JML_HARI_TUNGPKK,
                                     item.JML_HARI_TUNGBNG,
                                     item.KOLEKTIBILITY,
@@ -858,6 +865,7 @@
                                     new Intl.NumberFormat('id-ID').format(item
                                         .NILAI_WAJAR),
                                     item.TGL_PENCAIRAN,
+                                    item.TGL_PK,
                                     item.JML_HARI_TUNGPKK,
                                     item.JML_HARI_TUNGBNG,
                                     item.KOLEKTIBILITY,
@@ -888,6 +896,7 @@
                                         .NILAI_WAJAR),
                                     item.NO_REK,
                                     item.TGL_PENCAIRAN,
+                                    item.TGL_PK,
                                     item.JML_HARI_TUNGPKK,
                                     item.JML_HARI_TUNGBNG,
                                     item.NOHP,

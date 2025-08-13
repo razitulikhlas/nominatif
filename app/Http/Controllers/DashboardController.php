@@ -64,6 +64,11 @@ class DashboardController extends Controller
                     $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
                     $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
                     $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+
+                    $tahunSingkat = substr($item->TGL_PK, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PK, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PK = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
                 }
             }
 
@@ -73,6 +78,11 @@ class DashboardController extends Controller
                     $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
                     $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
                     $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+
+                    $tahunSingkat = substr($item->TGL_PK, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PK, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PK = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
                 }
             }
 
@@ -139,6 +149,11 @@ class DashboardController extends Controller
                     $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
                     $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
                     $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+
+                    $tahunSingkat = substr($item->TGL_PK, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PK, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PK = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
                 }
             }
             // return $dataTunggakan;
@@ -668,6 +683,20 @@ class DashboardController extends Controller
             // return $sqlTunggakan;
 
             $dataBlast = DB::select($sqlTunggakan);
+
+            if ($dataBlast) {
+                foreach ($dataBlast as $item) {
+                    $tahunSingkat = substr($item->TGL_PENCAIRAN, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PENCAIRAN, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PENCAIRAN = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+
+                    $tahunSingkat = substr($item->TGL_PK, 2, 2);
+                    $sisaTanggal = substr($item->TGL_PK, 4);
+                    $tanggalYangBenar = "20" . $tahunSingkat . $sisaTanggal;
+                    $item->TGL_PK = Carbon::parse($tanggalYangBenar)->locale('id')->isoFormat('D MMMM YYYY');
+                }
+            }
 
             // return $dataBlast;
 
