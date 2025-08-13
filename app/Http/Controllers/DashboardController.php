@@ -483,6 +483,7 @@ class DashboardController extends Controller
         // return $user;
 
         if (Auth::user()->rules == $SUPER_ADMIN) {
+            return $this->dashboardCabang($user->username);
             return "super admin";
         }
 
