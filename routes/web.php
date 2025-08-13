@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
 
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('login', [LoginController::class, 'store']);
+// Route::get('/login', [LoginController::class, 'index'])->name('login');
+// Route::post('login', [LoginController::class, 'store']);
 // Route::get('/login', 'LoginController@index')->name('login');
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -57,6 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/testa', [DashboardController::class, 'filter'])->name('testa');
 
     Route::resource('/user', UserController::class);
+});
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'store']);
 });
 
 
