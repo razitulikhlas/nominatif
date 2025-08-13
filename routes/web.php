@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 
-// Route::get('/', function () {
-//     return redirect('/login');
-// });
+Route::get('/', function () {
+    return redirect('/login');
+});
 
 
 // Route::get('/login', [LoginController::class, 'index'])->name('login');
