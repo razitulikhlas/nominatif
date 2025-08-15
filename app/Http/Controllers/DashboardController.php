@@ -908,8 +908,15 @@ class DashboardController extends Controller
                 $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
 
                 $nama = $item->NAMA_SINGKAT;
-                $norek = $item->NO_REK_AFILIASI;
-                $hp = substr_replace($item->nohp_analis, '62', 0, 1);
+                // $norek = $item->NO_REK_AFILIASI;
+                if($item->nohp_analis != null || $item->nohp_analis != ''){
+                    $hp = substr_replace($item->nohp_analis, '62', 0, 1);
+                }else{
+                    $hp = '0'; // Ganti dengan nomor default atau logika penanganan jika nohp_analis kosong
+                }
+
+                // return $hp;
+
 
 
                 $message = $this->templateMessage(
@@ -919,7 +926,6 @@ class DashboardController extends Controller
                     $hp,
                     $tunggakan,
                     $item->nama_analis,
-                    $norek
                 );
 
                 $payload = [
@@ -1275,7 +1281,7 @@ class DashboardController extends Controller
         return number_format($num, 0, ',', '.');
     }
 
-    public function templateMessage($kolek, $haritunggakan, $nama, $phone, $total_tunggakan, $petugas, $norek)
+    public function templateMessage($kolek, $haritunggakan, $nama, $phone, $total_tunggakan, $petugas)
     {
         $message = "Kepada Bapak/Ibu $nama
 Nasabah kami yang terhormat, Semoga Bapak/Ibu $nama senantiasa sehat dan diberikan kelancaran dalam setiap aktivitas usahanya saat ini. Dengan segala hormat dan pengertian, kami ingin menyampaikan sebuah catatan mengenai pinjaman Bapak/Ibu $nama. Berdasarkan data kami, saat ini terdapat keterlambatan pembayaran dengan jumlah tunggakan sebesar Rp $total_tunggakan Kami memahami bahwa fokus Bapak/ Ibu $nama tentu sedang tercurah pada pengembangan usaha. Oleh karena itu, agar hal ini tidak sampai mengganggu konsentrasi, kami sangat mengharapkan kewajiban tersebut dapat segera ditunaikan pada kesempatan pertama.
