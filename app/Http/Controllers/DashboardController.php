@@ -894,7 +894,7 @@ class DashboardController extends Controller
             }
         }
 
-         return $hasil_join;
+        //  return $hasil_join;
 
         foreach ($hasil_join as $item) {
 
@@ -924,6 +924,8 @@ class DashboardController extends Controller
                         $hp = '0'; // Ganti dengan nomor default atau logika penanganan jika nohp_analis kosong
                     }
 
+                    // return $item->NOHP;
+
 
 
 
@@ -940,7 +942,7 @@ class DashboardController extends Controller
                     $payload = [
                         "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
                         "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
-                        "to"  => "6282169146904", // atau mengambil dari database/request
+                        "to"  => $item->NOHP, // atau mengambil dari database/request
                         "message" => $message,
                     ];
 
