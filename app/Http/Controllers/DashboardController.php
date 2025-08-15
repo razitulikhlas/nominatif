@@ -874,6 +874,8 @@ class DashboardController extends Controller
         // return $hasil_join;
 
         // Loop melalui data nominatif
+
+
         foreach ($dataBlast as $nominatif) {
             $kode_ao = $nominatif->KD_AO;
 
@@ -895,6 +897,8 @@ class DashboardController extends Controller
         }
 
         //  return $hasil_join;
+        $hpnasabah []   = [];
+        $p []   = [];
 
         foreach ($hasil_join as $item) {
 
@@ -924,6 +928,8 @@ class DashboardController extends Controller
                         $hp = '0'; // Ganti dengan nomor default atau logika penanganan jika nohp_analis kosong
                     }
 
+                    // $hpnasabah []   = trim($item->NOHP);
+
                     // return $item->NOHP;
 
 
@@ -946,10 +952,16 @@ class DashboardController extends Controller
                         "message" => $message,
                     ];
 
+                    $p[] = $payload;
+
+
+
                     SendWhatsAppTunggakan::dispatch($payload);
                 }
             }
         }
+
+        // return $p;
     }
 
 
