@@ -894,7 +894,7 @@ class DashboardController extends Controller
             }
         }
 
-        //  return $hasil_join;
+         return $hasil_join;
 
         foreach ($hasil_join as $item) {
 
@@ -905,37 +905,47 @@ class DashboardController extends Controller
             // $tunggakanNumeric = $tunggPokokNumeric + $tunggBungaNumeric;
 
             if ($item->KOLEKTIBILITY == 2) {
-                $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
 
-                $nama = $item->NAMA_SINGKAT;
-                // $norek = $item->NO_REK_AFILIASI;
-                if($item->nohp_analis != null || $item->nohp_analis != ''){
-                    $hp = substr_replace($item->nohp_analis, '62', 0, 1);
-                }else{
-                    $hp = '0'; // Ganti dengan nomor default atau logika penanganan jika nohp_analis kosong
+                if($item->NOHP != '0'
+                    && $item->NOHP != '08'
+                    && $item->NOHP != '00'
+                    && $item->NOHP != '080'
+                    && $item->NOHP != '0812'
+                )
+                {
+                    $item->NOHP = substr_replace($item->NOHP, '62', 0, 1);
+                    $tunggakan = number_format($item->total_tunggakan, 0, ',', '.'); // $tunggakan menjadi string yang diformat
+
+                    $nama = $item->NAMA_SINGKAT;
+                    // $norek = $item->NO_REK_AFILIASI;
+                    if($item->nohp_analis != null || $item->nohp_analis != ''){
+                        $hp = substr_replace($item->nohp_analis, '62', 0, 1);
+                    }else{
+                        $hp = '0'; // Ganti dengan nomor default atau logika penanganan jika nohp_analis kosong
+                    }
+
+
+
+
+
+                    $message = $this->templateMessage(
+                        $item->KOLEKTIBILITY,
+                        $item->JML_HARI_TUNGPKK,
+                        $nama,
+                        $hp,
+                        $tunggakan,
+                        $item->nama_analis,
+                    );
+
+                    $payload = [
+                        "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
+                        "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
+                        "to"  => "6282169146904", // atau mengambil dari database/request
+                        "message" => $message,
+                    ];
+
+                    SendWhatsAppTunggakan::dispatch($payload);
                 }
-
-                // return $hp;
-
-
-
-                $message = $this->templateMessage(
-                    $item->KOLEKTIBILITY,
-                    $item->JML_HARI_TUNGPKK,
-                    $nama,
-                    $hp,
-                    $tunggakan,
-                    $item->nama_analis,
-                );
-
-                $payload = [
-                    "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
-                    "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
-                    "to"  => "6282169146904", // atau mengambil dari database/request
-                    "message" => $message,
-                ];
-
-                SendWhatsAppTunggakan::dispatch($payload);
             }
         }
     }
