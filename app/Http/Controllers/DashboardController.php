@@ -948,7 +948,7 @@ class DashboardController extends Controller
                     $payload = [
                         "appkey" => "be7709eb-385d-4ead-95bf-7e89073e45b4",
                         "authkey"  => "Lfp2NBycRyVHVreKe1x1s8JlBrePSv43z2afXgBuWzZBFKYo0P", // Anda bisa membuat ini dinamis jika perlu
-                        "to"  => "6282169146904", // atau mengambil dari database/request
+                        "to"  => trim($item->NOHP), // atau mengambil dari database/request
                         "message" => $message,
                     ];
 
