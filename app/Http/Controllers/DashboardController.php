@@ -795,6 +795,8 @@ class DashboardController extends Controller
             $conditions[] = "kd_cab_konsol = $userCabang->kode_cabang";
         }
 
+        // return $analisKredit;
+
 
         // Filter untuk kode analis
         if (!empty($kodeAnalis)) {
@@ -836,10 +838,12 @@ class DashboardController extends Controller
         $sqlTunggakan = "SELECT tbl_nominatif.KD_AO,(tbl_nominatif.TUNGG_POKOK+tbl_nominatif.TUNGG_BUNGA) as total_tunggakan, tbl_nominatif.*
                 from tbl_nominatif
                 WHERE tbl_nominatif.KOLEKTIBILITY > 1
-                OR tbl_nominatif.TUNGG_POKOK != 0
-                OR tbl_nominatif.TUNGG_BUNGA != 0
+                AND tbl_nominatif.TUNGG_POKOK != 0
+                AND tbl_nominatif.TUNGG_BUNGA != 0
                 AND tbl_nominatif.KD_PRD NOT IN (0698,0697,0696,0686,0679,0673,0672,0509,0566,0567,0568,0569,0570,0574,0575,0582,0627,0628,0629)
-                AND tbl_nominatif.TANGGAL =  '$maxTanggal'";
+                AND tbl_nominatif.TANGGAL =  '$maxTanggal'
+                AND tbl_nominatif.KD_CAB_KONSOL = '$cabang->kode_cabang'
+                ";
 
         if (!empty($conditions)) {
             $sqlTunggakan .= " AND " . implode(" AND ", $conditions);
@@ -866,6 +870,8 @@ class DashboardController extends Controller
         //  return $peta_analis;
 
         $hasil_join = [];
+
+        // return $hasil_join;
 
         // Loop melalui data nominatif
         foreach ($dataBlast as $nominatif) {
