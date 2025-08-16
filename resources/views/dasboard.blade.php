@@ -947,7 +947,7 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: false
                                     }
                                 }
                             }
@@ -968,7 +968,7 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: false
                                     }
                                 }
                             }
@@ -989,7 +989,7 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: false
                                     }
                                 }
                             }
@@ -1015,7 +1015,7 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: false
                                     }
                                 },
                                 plugins: {
@@ -1135,7 +1135,7 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }
             }
@@ -1156,7 +1156,7 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }
             }
@@ -1177,7 +1177,7 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }
             }
@@ -1203,7 +1203,7 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 },
                 plugins: {
