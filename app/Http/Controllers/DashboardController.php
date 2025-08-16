@@ -263,30 +263,6 @@ class DashboardController extends Controller
                 $grafikNilaiWajar[$key] = number_format((float)($value->NILAI_WAJAR ?? 0), 0, ',', '.');
             }
 
-            $chartNPL = new LarapexChart()->lineChart()
-                ->addData('NPL', $grafikNPL)
-                ->setHeight(250)
-                ->setColors(['#ff455f'])
-                ->setGrid(true, '#3F51B5', 0.1)
-                ->setMarkers(['#FF5722', '#E040FB'], 5, 2)
-                ->setXAxis($grafikTanggal);
-
-            $chartDPK = new LarapexChart()->lineChart()
-                ->addLine('DPK', $grafikDPK)
-                ->setColors(['#feb019'])
-                ->setHeight(250)
-                ->setGrid(true, '#1761AB', 0.1)
-                ->setMarkers(['#1761AB', '#E040FB'], 5, 2)
-                ->setXAxis($grafikTanggal);
-
-            $chartNilaiWajar = new LarapexChart()->lineChart()
-                ->addLine('NILAI WAJAR', $grafikNilaiWajar)
-                ->setColors(['#006400'])
-                ->setHeight(250)
-                ->setGrid(true, '#1761AB', 0.1)
-                ->setMarkers(['#006400', '#E040FB'], 5, 2)
-                ->setXAxis($grafikTanggal);
-
             // grafik Donut
             $total_kredit = $posisi->Lancar + $posisi->NPL + $posisi->DPK;
 
@@ -335,9 +311,6 @@ class DashboardController extends Controller
                 [
                     'cabang'   => null,
                     'analisKredit' => $analisKredit,
-                    'chartNPL' => $chartNPL,
-                    'chartDPK' => $chartDPK,
-                    'chartNilaiWajar' => $chartNilaiWajar,
                     'posisi' => $posisi,
                     'dataNBNPL' => $dataNBNPL,
                     'dataNBDPK' => $dataNBDPK,
@@ -417,11 +390,6 @@ class DashboardController extends Controller
             $setData = [(float)$lancar, (float) $dpk, (float)$npl];
             $setKeterangan = ["Lancar", "DPK", "NPL"];
 
-
-            $donut = new LarapexChart()->donutChart()
-                ->addData($setData)
-                ->setLabels($setKeterangan)
-                ->setColors(['#00E396', '#feb019', '#ff455f']);
 
             $dataTunggakan = DB::select("SELECT n.*, a.*, (n.TUNGG_POKOK + n.TUNGG_BUNGA) AS TOTAL_TUNGGAKAN FROM tbl_nominatif
                     n LEFT JOIN tbl_afiliasi a ON n.NO_REK = a.NO_REK WHERE n.KOLEKTIBILITY > 1
