@@ -279,12 +279,6 @@ class DashboardController extends Controller
             $setData = [(float)$lancar, (float) $dpk, (float)$npl];
             $setKeterangan = ["Lancar", "DPK", "NPL"];
 
-
-            $donut = new LarapexChart()->donutChart()
-                ->addData($setData)
-                ->setLabels($setKeterangan)
-                ->setColors(['#00E396', '#feb019', '#ff455f']);
-
             $dataTunggakan = DB::select("SELECT n.*, a.*, (n.TUNGG_POKOK + n.TUNGG_BUNGA) AS TOTAL_TUNGGAKAN FROM tbl_nominatif
                             n LEFT JOIN tbl_afiliasi a ON n.NO_REK = a.NO_REK WHERE n.KOLEKTIBILITY > 1
                             AND n.TUNGG_POKOK != 0
@@ -315,7 +309,6 @@ class DashboardController extends Controller
                     'dataNBNPL' => $dataNBNPL,
                     'dataNBDPK' => $dataNBDPK,
                     'dataBlast' => $dataTunggakan,
-                    'donut' => $donut,
                 ]
             );
         }
